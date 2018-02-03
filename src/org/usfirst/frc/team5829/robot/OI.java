@@ -7,11 +7,19 @@
 
 package org.usfirst.frc.team5829.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
+	
+	public Joystick xbox = new Joystick(0);
+	public Joystick xbox2 = new Joystick(1);
+	
 	//// CREATING BUTTONS
 	// One type of button is a joystick button which is any button on a
 	//// joystick.
@@ -19,7 +27,44 @@ public class OI {
 	// number it is.
 	// Joystick stick = new Joystick(port);
 	// Button button = new JoystickButton(stick, buttonNumber);
-
+	
+	//Controller 1
+	Button btnA = new JoystickButton(xbox, 1);
+	Button btnB = new JoystickButton(xbox, 2);
+	Button btnX = new JoystickButton(xbox, 3);
+	Button btnY = new JoystickButton(xbox, 4);
+	Button btnL1 = new JoystickButton(xbox, 5);
+	Button btnR1 = new JoystickButton(xbox, 6);
+	Button btnM = new JoystickButton(xbox, 7);
+	Button btnS = new JoystickButton(xbox, 8);
+	Button btnW = new JoystickButton(xbox, 9);
+	
+	//Controller 2
+	Button btnA2 = new JoystickButton(xbox2, 1);
+	Button btnB2 = new JoystickButton(xbox2, 2);
+	Button btnX2 = new JoystickButton(xbox2, 3);
+	Button btnY2 = new JoystickButton(xbox2, 4);
+	Button btnL12 = new JoystickButton(xbox2, 5);
+	Button btnR12 = new JoystickButton(xbox2, 6);
+	Button btnM2 = new JoystickButton(xbox2, 7);
+	Button btnS2 = new JoystickButton(xbox2, 8);
+	Button btnW2 = new JoystickButton(xbox2, 9);
+	
+	public double getRawAnalogStickALX() {
+		return xbox.getRawAxis(0);
+	}
+	
+	public double getRawAnalogStickALY() {
+		return xbox.getRawAxis(1);
+	}
+	
+	public double getRawAnalogStickARX() {
+		return xbox.getRawAxis(4);
+	}
+	
+	public double getRawAnalogStickARY() {
+		return xbox.getRawAxis(5);
+	}
 	// There are a few additional built in buttons you can use. Additionally,
 	// by subclassing Button you can create custom triggers and bind those to
 	// commands the same as any other Button.
@@ -39,4 +84,8 @@ public class OI {
 	// Start the command when the button is released and let it run the command
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
+	
+	public OI() {
+		
+	}
 }
