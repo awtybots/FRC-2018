@@ -35,5 +35,12 @@ public class DriveTrain extends Subsystem {
     	rightBackMotor.set(ControlMode.PercentOutput, rightSpeed);
     	rightFrontMotor.set(ControlMode.PercentOutput, rightSpeed);
     }
+    
+    public static void SplitArcade(double straight, double rotate) {
+    	leftFrontMotor.set(ControlMode.PercentOutput, (straight + rotate));
+    	leftBackMotor.set(ControlMode.PercentOutput, (straight + rotate));
+    	rightFrontMotor.set(ControlMode.PercentOutput, (straight - rotate));
+    	rightBackMotor.set(ControlMode.PercentOutput, (straight - rotate));
+    }
 }
 
