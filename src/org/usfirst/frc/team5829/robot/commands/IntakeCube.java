@@ -1,38 +1,38 @@
 package org.usfirst.frc.team5829.robot.commands;
 
 import org.usfirst.frc.team5829.robot.Robot;
-import org.usfirst.frc.team5829.robot.subsystems.ArmLifter;
+import org.usfirst.frc.team5829.robot.subsystems.CubeIntake;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class Arm extends Command {
-	public int armSpeed;
-
-    public Arm(int speed) {
-    	armSpeed = speed;
-        requires(Robot.arm);
+public class IntakeCube extends Command {
+	public double intakeSpeed, outtakeSpeed;
+	
+    public IntakeCube() {
+        requires(Robot.intake);
     }
 
     // Called just before this Command runs the first time
-    protected void initialize() {}
+    protected void initialize() {
+    }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(Math.abs(armSpeed) < .2) {
-    		armSpeed = 0;
+    	intakeSpeed = Robot.oi.xbox.getRawAxis(2);
+    	outtakeSpeed = Robot.oi.xbox.getRawAxis(3);
+    	
+    	if (Math.abs(intakeSpeed) < .5) {
+    		intakeSpeed = 0;
+    	}
+    	if (Math.abs(outtakeSpeed) < .5) {
+    		outtakeSpeed = 0;
     	}
     	
-    	if(armSpeed == -1){
-    		ArmLifter.armDown();
-    	}
-    	
-    	if(armSpeed == 1){
-    		ArmLifter.armUp();
-    	}
-
+    	CubeIntake.Intake(intakeSpeed);
+    	CubeIntake.Outtake(outtakeSpeed);
     }
 
     // Make this return true when this Command no longer needs to run execute()

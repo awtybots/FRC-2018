@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team5829.robot.subsystems.ArmLifter;
+import org.usfirst.frc.team5829.robot.subsystems.CubeIntake;
 import org.usfirst.frc.team5829.robot.subsystems.DriveTrain;
 
 
@@ -27,6 +28,7 @@ import org.usfirst.frc.team5829.robot.subsystems.DriveTrain;
 public class Robot extends TimedRobot {
 	public static final DriveTrain driveBase = new DriveTrain();
 	public static final ArmLifter arm = new ArmLifter();
+	public static final CubeIntake intake = new CubeIntake();
 	public static OI oi;
 
 	Command m_autonomousCommand;
