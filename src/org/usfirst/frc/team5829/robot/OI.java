@@ -65,6 +65,14 @@ public class OI {
 	public double getRawAnalogStickARY() {
 		return xbox.getRawAxis(5);
 	}
+	
+	public double getRawLZ() {
+		return xbox.getRawAxis(2);
+	}
+	
+	public double getRawRX() {
+		return xbox.getRawAxis(3);
+	}
 	// There are a few additional built in buttons you can use. Additionally,
 	// by subclassing Button you can create custom triggers and bind those to
 	// commands the same as any other Button.
