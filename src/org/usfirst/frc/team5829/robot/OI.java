@@ -7,6 +7,8 @@
 
 package org.usfirst.frc.team5829.robot;
 
+import org.usfirst.frc.team5829.robot.commands.Arm;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -65,14 +67,7 @@ public class OI {
 	public double getRawAnalogStickARY() {
 		return xbox.getRawAxis(5);
 	}
-	
-	public double getRawLZ() {
-		return xbox.getRawAxis(2);
-	}
-	
-	public double getRawRX() {
-		return xbox.getRawAxis(3);
-	}
+
 	// There are a few additional built in buttons you can use. Additionally,
 	// by subclassing Button you can create custom triggers and bind those to
 	// commands the same as any other Button.
@@ -94,6 +89,10 @@ public class OI {
 	// button.whenReleased(new ExampleCommand());
 	
 	public OI() {
+		
+		btnL1.whileHeld(new Arm(1));
+		btnR1.whileHeld(new Arm(-1));
+		
 		
 	}
 }
