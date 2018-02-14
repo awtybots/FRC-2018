@@ -21,6 +21,7 @@ public class IntakeCube extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	CubeIntake.IntakeOpen();
     	intakeSpeed = Robot.oi.xbox.getRawAxis(2);
     	outtakeSpeed = Robot.oi.xbox.getRawAxis(3);
     	

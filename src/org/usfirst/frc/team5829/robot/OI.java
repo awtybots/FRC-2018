@@ -7,7 +7,7 @@
 
 package org.usfirst.frc.team5829.robot;
 
-import org.usfirst.frc.team5829.robot.commands.Arm;
+import org.usfirst.frc.team5829.robot.commands.ArmMove;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -96,11 +96,11 @@ public class OI {
 	
 	public OI() {
 		
-		btnL1.whenPressed(new Arm(1));
-		btnL1.whenReleased(new Arm(0));
+		btnL1.whenPressed(new ArmMove(1));
+		btnL1.whenReleased(new ArmMove(0));
 		
-		btnR1.whenPressed(new Arm(-1));
-		btnR1.whenReleased(new Arm(0));
+		btnR1.whenPressed(new ArmMove(-1));
+		btnR1.whenReleased(new ArmMove(0));
 		
 	}
 }

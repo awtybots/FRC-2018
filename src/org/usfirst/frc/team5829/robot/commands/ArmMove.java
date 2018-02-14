@@ -1,17 +1,17 @@
 package org.usfirst.frc.team5829.robot.commands;
 
 import org.usfirst.frc.team5829.robot.Robot;
-import org.usfirst.frc.team5829.robot.subsystems.ArmLifter;
+import org.usfirst.frc.team5829.robot.subsystems.Arm;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class Arm extends Command {
+public class ArmMove extends Command {
 	public int armSpeed;
 
-    public Arm(int speed) {
+    public ArmMove(int speed) {
     	armSpeed = speed;
         requires(Robot.arm);
     }
@@ -21,7 +21,8 @@ public class Arm extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	ArmLifter.armMove(armSpeed);
+    	Arm.armMoveMotor(armSpeed);
+    	Arm.armMovePiston(armSpeed);
     }
 
     // Make this return true when this Command no longer needs to run execute()
