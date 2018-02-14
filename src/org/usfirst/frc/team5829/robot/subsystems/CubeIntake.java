@@ -21,6 +21,7 @@ public class CubeIntake extends Subsystem {
 	public static final double intakeSpeed = .65;
 	
     public void initDefaultCommand() {
+    	// This is a useless comment
         // Set the default command for a subsystem here.
         setDefaultCommand(new IntakeCube());
     }
