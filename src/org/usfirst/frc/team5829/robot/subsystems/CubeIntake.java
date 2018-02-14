@@ -29,6 +29,11 @@ public class CubeIntake extends Subsystem {
     		leftIntakeMotor.set(ControlMode.PercentOutput, intakeSpeed);
     		rightIntakeMotor.set(ControlMode.PercentOutput, intakeSpeed);
     	}
+    	else
+    	{
+    		leftIntakeMotor.set(ControlMode.PercentOutput, 0);
+    		rightIntakeMotor.set(ControlMode.PercentOutput, 0);
+    	}
     }
     
     public static void Outtake(double speed)

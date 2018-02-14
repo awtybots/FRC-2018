@@ -68,6 +68,12 @@ public class OI {
 		return xbox.getRawAxis(5);
 	}
 
+	public double getRawLZ(){
+		return xbox.getRawAxis(2);
+	}
+	public double getRawRZ(){
+		return xbox.getRawAxis(3);
+	}
 	// There are a few additional built in buttons you can use. Additionally,
 	// by subclassing Button you can create custom triggers and bind those to
 	// commands the same as any other Button.
@@ -90,9 +96,11 @@ public class OI {
 	
 	public OI() {
 		
-		btnL1.whileHeld(new Arm(1));
-		btnR1.whileHeld(new Arm(-1));
+		btnL1.whenPressed(new Arm(1));
+		btnL1.whenReleased(new Arm(0));
 		
+		btnR1.whenPressed(new Arm(-1));
+		btnR1.whenReleased(new Arm(0));
 		
 	}
 }

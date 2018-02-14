@@ -32,5 +32,10 @@ public class ArmLifter extends Subsystem {
     	leftArm.set(ControlMode.PercentOutput, -armSpeed);
     	rightArm.set(ControlMode.PercentOutput, armSpeed);
     }
+    public static void armOff()
+    {
+    	leftArm.set(ControlMode.PercentOutput, 0);
+    	rightArm.set(ControlMode.PercentOutput, 0);
+    }
 }
 

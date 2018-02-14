@@ -21,9 +21,6 @@ public class Arm extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(Math.abs(armSpeed) < .2) {
-    		armSpeed = 0;
-    	}
     	
     	if(armSpeed == -1){
     		ArmLifter.armDown();
@@ -32,7 +29,10 @@ public class Arm extends Command {
     	if(armSpeed == 1){
     		ArmLifter.armUp();
     	}
-
+    	else
+    	{
+    		ArmLifter.armOff();
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
