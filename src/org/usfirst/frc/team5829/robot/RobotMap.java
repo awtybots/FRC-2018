@@ -34,4 +34,6 @@ public class RobotMap {
 	public static int arm_down = 1;
 	public static int IntakeOpen = 2;
 	public static int IntakeClose = 3;
+	public static int breakOpen = 4;
+	public static int breakClose = 5;
 }

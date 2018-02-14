@@ -1,13 +1,12 @@
 package org.usfirst.frc.team5829.robot.subsystems;
 
 import org.usfirst.frc.team5829.robot.RobotMap;
-import org.usfirst.frc.team5829.robot.commands.TankDriveCommand;
+//import org.usfirst.frc.team5829.robot.commands.TankDriveCommand;
 import org.usfirst.frc.team5829.robot.commands.SplitArcade;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 

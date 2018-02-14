@@ -2,7 +2,6 @@ package org.usfirst.frc.team5829.robot.subsystems;
 
 import org.usfirst.frc.team5829.robot.RobotMap;
 import org.usfirst.frc.team5829.robot.commands.ArmMove;
-import org.usfirst.frc.team5829.robot.commands.SplitArcade;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -21,19 +20,23 @@ public class Arm extends Subsystem {
 	public static TalonSRX rightArm = new TalonSRX(RobotMap.rightArm);
 	public static final double armSpeed = 0.65;
 	public static DoubleSolenoid armMove = new DoubleSolenoid(RobotMap.arm_down,RobotMap.arm_up);
+	public static DoubleSolenoid bikeBreak = new DoubleSolenoid(RobotMap.breakClose, RobotMap.breakOpen);
 	
     public void initDefaultCommand(){
-    	setDefaultCommand(new ArmMove(0));
+    	setDefaultCommand(new ArmMove(0, 0));
     }
     
     public static void armMoveMotor(int upOrDown) {
-    	if(upOrDown==-1){
+    	if(upOrDown == -1){
+    		bikeBreak.set(DoubleSolenoid.Value.kForward);
     		leftArm.set(ControlMode.PercentOutput, armSpeed);
     		rightArm.set(ControlMode.PercentOutput, -armSpeed);
-    	}else if(upOrDown==1){
+    	}else if(upOrDown == 1){
+    		bikeBreak.set(DoubleSolenoid.Value.kForward);
     		leftArm.set(ControlMode.PercentOutput, -armSpeed);
         	rightArm.set(ControlMode.PercentOutput, armSpeed);
     	}else{
+    		bikeBreak.set(DoubleSolenoid.Value.kReverse);
         	leftArm.set(ControlMode.PercentOutput, 0);
         	rightArm.set(ControlMode.PercentOutput, 0);    		
     	}

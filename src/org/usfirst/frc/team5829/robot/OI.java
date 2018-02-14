@@ -96,11 +96,14 @@ public class OI {
 	
 	public OI() {
 		
-		btnL1.whenPressed(new ArmMove(1));
-		btnL1.whenReleased(new ArmMove(0));
+		btnL1.whenPressed(new ArmMove(1, 0));
+		btnL1.whenReleased(new ArmMove(0, 0));
 		
-		btnR1.whenPressed(new ArmMove(-1));
-		btnR1.whenReleased(new ArmMove(0));
+		btnR1.whenPressed(new ArmMove(-1, 0));
+		btnR1.whenReleased(new ArmMove(0, 0));
+		
+		btnB.toggleWhenPressed(new ArmMove(0, 1));
+		
 		
 	}
 }

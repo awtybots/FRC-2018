@@ -10,9 +10,11 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class ArmMove extends Command {
 	public int armSpeed;
+	public int armPot;
 
-    public ArmMove(int speed) {
+    public ArmMove(int speed, int position) {
     	armSpeed = speed;
+    	armPot = position;
         requires(Robot.arm);
     }
 
@@ -22,7 +24,7 @@ public class ArmMove extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	Arm.armMoveMotor(armSpeed);
-    	Arm.armMovePiston(armSpeed);
+    	Arm.armMovePiston(armPot);
     }
 
     // Make this return true when this Command no longer needs to run execute()
