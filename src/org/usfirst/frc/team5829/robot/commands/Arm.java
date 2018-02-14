@@ -21,18 +21,7 @@ public class Arm extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	
-    	if(armSpeed == -1){
-    		ArmLifter.armDown();
-    	}
-    	
-    	if(armSpeed == 1){
-    		ArmLifter.armUp();
-    	}
-    	else
-    	{
-    		ArmLifter.armOff();
-    	}
+    	ArmLifter.armMove(armSpeed);
     }
 
     // Make this return true when this Command no longer needs to run execute()

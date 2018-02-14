@@ -24,18 +24,26 @@ public class ArmLifter extends Subsystem {
     	setDefaultCommand(new Arm(0));
     }
     
-    public static void armDown() {
-    	leftArm.set(ControlMode.PercentOutput, armSpeed);
-    	rightArm.set(ControlMode.PercentOutput, -armSpeed);
+    public static void armMove(int upOrDown) {
+    	if(upOrDown==-1){
+    		leftArm.set(ControlMode.PercentOutput, armSpeed);
+    		rightArm.set(ControlMode.PercentOutput, -armSpeed);
+    	}else if(upOrDown==1){
+    		leftArm.set(ControlMode.PercentOutput, -armSpeed);
+        	rightArm.set(ControlMode.PercentOutput, armSpeed);
+    	}else{
+        	leftArm.set(ControlMode.PercentOutput, 0);
+        	rightArm.set(ControlMode.PercentOutput, 0);    		
+    	}
     }
-    public static void armUp() {
-    	leftArm.set(ControlMode.PercentOutput, -armSpeed);
-    	rightArm.set(ControlMode.PercentOutput, armSpeed);
-    }
-    public static void armOff()
+//    public static void armUp() {
+//    	leftArm.set(ControlMode.PercentOutput, -armSpeed);
+//    	rightArm.set(ControlMode.PercentOutput, armSpeed);
+//    }
+    /*public static void armOff()
     {
     	leftArm.set(ControlMode.PercentOutput, 0);
     	rightArm.set(ControlMode.PercentOutput, 0);
-    }
+    }*/
 }
 
