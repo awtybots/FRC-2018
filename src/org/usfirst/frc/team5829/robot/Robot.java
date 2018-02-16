@@ -7,6 +7,10 @@
 
 package org.usfirst.frc.team5829.robot;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -16,6 +20,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team5829.robot.subsystems.Arm;
 import org.usfirst.frc.team5829.robot.subsystems.CubeIntake;
 import org.usfirst.frc.team5829.robot.subsystems.DriveTrain;
+
+import com.kauailabs.navx.frc.AHRS;
 
 
 /**
@@ -29,10 +35,12 @@ public class Robot extends TimedRobot {
 	public static final DriveTrain driveBase = new DriveTrain();
 	public static final Arm arm = new Arm();
 	public static final CubeIntake intake = new CubeIntake();
+	
+	public static AHRS navx = new AHRS(SerialPort.Port.kMXP);
 	public static OI oi;
 
-	Command m_autonomousCommand;
-	SendableChooser<Command> m_chooser = new SendableChooser<>();
+	Command autonomousCommand;
+	SendableChooser autoChooser;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -40,10 +48,30 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
+		Robot.navx.resetDisplacement();
+		UsbCamera cam0 = CameraServer.getInstance().startAutomaticCapture(0);
+		
+		cam0.setFPS(8);
+		
+		autoChooser = new SendableChooser();
+		autoChooser.addDefault("Drive Forward", object);
+		String gameData;
+		gameData = DriverStation.getInstance().getGameSpecificMessage();
+		//auto for Switch
+		if(gameData.charAt(0) == 'L') {
+			
+		}else {
+			
+		}
+		
+		//auto for Scale
+		if(gameData.charAt(1) == 'L') {
+			
+		}else {
+			
+		}
+		SmartDashboard.putData("Auto mode", autoChooser);
 		oi = new OI();
-		//m_chooser.addDefault("Default Auto", new ExampleCommand());
-		// chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto mode", m_chooser);
 	}
 
 	/**
@@ -53,7 +81,9 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
-
+		Robot.driveBase.leftMiddleMotor.setEncPosition();
+		Robot.driveBase.rightMiddleMotor.setEncPosition();
+		Robot.navx.reset();
 	}
 
 	@Override
@@ -74,7 +104,14 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		m_autonomousCommand = m_chooser.getSelected();
+		
+		Robot.driveBase.leftMiddleMotor.setEncPosition();
+		Robot.driveBase.rightMiddleMotor.setEncPosition();
+		Robot.navx.reset();
+		
+		Robot.navx.resetDisplacement();
+		autonomousCommand = (Command) autoChooser.getSelected();
+		autonomousCommand.start();
 
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -84,9 +121,6 @@ public class Robot extends TimedRobot {
 		 */
 
 		// schedule the autonomous command (example)
-		if (m_autonomousCommand != null) {
-			m_autonomousCommand.start();
-		}
 	}
 
 	/**
@@ -103,8 +137,13 @@ public class Robot extends TimedRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		if (m_autonomousCommand != null) {
-			m_autonomousCommand.cancel();
+		
+		Robot.driveBase.leftMiddleMotor.setEncPosition();
+		Robot.driveBase.rightMiddleMotor.setEncPosition();
+		Robot.navx.reset();
+		
+		if (autonomousCommand != null) {
+			autonomousCommand.cancel();
 		}
 	}
 
