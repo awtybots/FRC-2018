@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import org.usfirst.frc.team5829.robot.commands.RunAuton;
 import org.usfirst.frc.team5829.robot.subsystems.Arm;
 import org.usfirst.frc.team5829.robot.subsystems.CubeIntake;
 import org.usfirst.frc.team5829.robot.subsystems.DriveTrain;
@@ -54,21 +55,27 @@ public class Robot extends TimedRobot {
 		cam0.setFPS(8);
 		
 		autoChooser = new SendableChooser();
-		autoChooser.addDefault("Drive Forward", object);
+		
 		String gameData;
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
+		
+		//center auto
+		autoChooser.addDefault("Drive Forward", new RunAuton(gameData.charAt(0), 0)); //drive forward
+		
 		//auto for Switch
 		if(gameData.charAt(0) == 'L') {
-			
+			autoChooser.addObject("Left Switch", new RunAuton(gameData.charAt(0), 2)); //left switch
+			autoChooser.addObject("Center Switch", new RunAuton(gameData.charAt(0), 1)); //center switch
 		}else {
-			
+			autoChooser.addObject("Right Switch", new RunAuton(gameData.charAt(0), 3));
+			autoChooser.addObject("Center Switch", new RunAuton(gameData.charAt(1), 1)); //center switch
 		}
 		
 		//auto for Scale
 		if(gameData.charAt(1) == 'L') {
-			
+			autoChooser.addObject("Left Scale", new RunAuton(gameData.charAt(1), 4)); //left scale
 		}else {
-			
+			autoChooser.addObject("Right Scale", new RunAuton(gameData.charAt(1), 5)); //right scale
 		}
 		SmartDashboard.putData("Auto mode", autoChooser);
 		oi = new OI();
