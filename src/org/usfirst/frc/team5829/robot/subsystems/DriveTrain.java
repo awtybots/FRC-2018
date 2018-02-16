@@ -20,8 +20,10 @@ public class DriveTrain extends Subsystem {
     // here. Call these from Commands.
 	
 	public static TalonSRX leftBackMotor = new TalonSRX(RobotMap.leftBackMotor);
+	public static TalonSRX leftMiddleMotor = new TalonSRX(RobotMap.leftMiddleMotor);
 	public static TalonSRX leftFrontMotor = new TalonSRX(RobotMap.leftFrontMotor);
 	public static TalonSRX rightBackMotor = new TalonSRX(RobotMap.rightBackMotor);
+	public static TalonSRX rightMiddleMotor = new TalonSRX(RobotMap.rightMiddleMotor);
 	public static TalonSRX rightFrontMotor = new TalonSRX(RobotMap.rightFrontMotor);
 
     public void initDefaultCommand() {
@@ -32,15 +34,19 @@ public class DriveTrain extends Subsystem {
     
     public static void TankDrive(double leftSpeed, double rightSpeed) {
     	leftBackMotor.set(ControlMode.PercentOutput, leftSpeed);
+    	leftMiddleMotor.set(ControlMode.PercentOutput, leftSpeed);
     	leftFrontMotor.set(ControlMode.PercentOutput, leftSpeed);
     	rightBackMotor.set(ControlMode.PercentOutput, rightSpeed);
+    	rightMiddleMotor.set(ControlMode.PercentOutput, rightSpeed);
     	rightFrontMotor.set(ControlMode.PercentOutput, rightSpeed);
     }
     
     public static void SplitArcade(double straight, double rotate) {
     	leftFrontMotor.set(ControlMode.PercentOutput, (straight + rotate));
+    	leftMiddleMotor.set(ControlMode.PercentOutput, (straight + rotate));
     	leftBackMotor.set(ControlMode.PercentOutput, (straight + rotate));
     	rightFrontMotor.set(ControlMode.PercentOutput, (straight - rotate));
+    	rightMiddleMotor.set(ControlMode.PercentOutput, (straight - rotate));
     	rightBackMotor.set(ControlMode.PercentOutput, (straight - rotate));
     }
 }

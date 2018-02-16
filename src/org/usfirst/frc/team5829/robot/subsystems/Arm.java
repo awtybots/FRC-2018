@@ -2,7 +2,6 @@ package org.usfirst.frc.team5829.robot.subsystems;
 
 import org.usfirst.frc.team5829.robot.RobotMap;
 import org.usfirst.frc.team5829.robot.commands.ArmMove;
-import org.usfirst.frc.team5829.robot.commands.SplitArcade;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
