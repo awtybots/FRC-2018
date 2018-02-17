@@ -145,8 +145,8 @@ public class DriveTrain extends Subsystem {
     	double diameter = 4;
     	double circumference = diameter;
     	double distance = ds;
-    	double lBMP = leftMiddleMotor.getEncPosition();
-    	double rBMP = rightMiddleMotor.getEncPosition();
+    	double lBMP = leftMiddleMotor.getSelectedSensorPosition(0);
+    	double rBMP = rightMiddleMotor.getSelectedSensorPosition(0);
     	double distanceDrivenRight = ((rBMP/1024)*circumference);
     	double distanceDrivenLeft = ((lBMP/1024)*circumference);
     	double avgDistanceDriven = ((distanceDrivenRight + distanceDrivenLeft)/2);

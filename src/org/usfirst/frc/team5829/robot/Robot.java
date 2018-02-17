@@ -88,8 +88,8 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
-		Robot.driveBase.leftMiddleMotor.setEncPosition();
-		Robot.driveBase.rightMiddleMotor.setEncPosition();
+		Robot.driveBase.leftMiddleMotor.setSelectedSensorPosition(0,0,0);
+		Robot.driveBase.rightMiddleMotor.setSelectedSensorPosition(0, 0, 0);
 		Robot.navx.reset();
 	}
 
@@ -112,8 +112,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		
-		Robot.driveBase.leftMiddleMotor.setEncPosition();
-		Robot.driveBase.rightMiddleMotor.setEncPosition();
+		Robot.driveBase.leftMiddleMotor.getSelectedSensorPosition(0);
+		Robot.driveBase.rightMiddleMotor.getSelectedSensorPosition(0);
 		Robot.navx.reset();
 		
 		Robot.navx.resetDisplacement();
@@ -145,8 +145,8 @@ public class Robot extends TimedRobot {
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
 		
-		Robot.driveBase.leftMiddleMotor.setEncPosition();
-		Robot.driveBase.rightMiddleMotor.setEncPosition();
+		Robot.driveBase.leftMiddleMotor.setSelectedSensorPosition(0, 0, 0);
+		Robot.driveBase.rightMiddleMotor.setSelectedSensorPosition(0, 0, 0);
 		Robot.navx.reset();
 		
 		if (autonomousCommand != null) {
