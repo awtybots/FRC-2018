@@ -18,7 +18,7 @@ public class Arm extends Subsystem {
 
 	public static TalonSRX leftArm = new TalonSRX(RobotMap.leftArm);
 	public static TalonSRX rightArm = new TalonSRX(RobotMap.rightArm);
-	public static final double armSpeed = 0.65;
+	public static final double armSpeed = 0.45;
 	public static DoubleSolenoid armMove = new DoubleSolenoid(RobotMap.arm_down,RobotMap.arm_up);
 	public static DoubleSolenoid bikeBreak = new DoubleSolenoid(RobotMap.breakClose, RobotMap.breakOpen);
 	

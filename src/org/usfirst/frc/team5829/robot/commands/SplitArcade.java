@@ -24,8 +24,8 @@ public class SplitArcade extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	straight = -(Robot.oi.xbox.getRawAxis(4));
-    	rotate = (Robot.oi.xbox.getRawAxis(1));
+    	straight = (Robot.oi.xbox.getRawAxis(4));
+    	rotate = -(Robot.oi.xbox.getRawAxis(1));
     	
     	if (Math.abs(straight) < .2) {
     		straight = 0;

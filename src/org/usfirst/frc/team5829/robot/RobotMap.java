@@ -21,19 +21,21 @@ public class RobotMap {
 	
 	// Motors
 	public static int leftBackMotor = 0;
-	public static int leftFrontMotor = 1;
-	public static int rightBackMotor = 2;
-	public static int rightFrontMotor = 3;
-	public static int leftArm = 4;
-	public static int rightArm = 5;
-	public static int intakeLeft = 6;
-	public static int intakeRight = 7;
+	public static int leftMiddleMotor = 1;
+	public static int leftFrontMotor = 2;
+	public static int rightBackMotor = 3;
+	public static int rightMiddleMotor = 4;
+	public static int rightFrontMotor = 5;
+	public static int leftArm = 6;
+	public static int rightArm = 7;
+	public static int intakeLeft = 8;
+	public static int intakeRight = 9;
 	
 	// Solenoids
 	public static int arm_up = 0;
 	public static int arm_down = 1;
-	public static int IntakeOpen = 2;
-	public static int IntakeClose = 3;
+	public static int IntakeOpen = 6;
+	public static int IntakeClose = 7;
 	public static int breakOpen = 4;
 	public static int breakClose = 5;
 }
