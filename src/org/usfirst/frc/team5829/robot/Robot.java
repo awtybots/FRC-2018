@@ -22,7 +22,11 @@ import org.usfirst.frc.team5829.robot.subsystems.Arm;
 import org.usfirst.frc.team5829.robot.subsystems.CubeIntake;
 import org.usfirst.frc.team5829.robot.subsystems.DriveTrain;
 
+<<<<<<< HEAD
 //import com.kauailabs.navx.frc.AHRS;
+=======
+import com.kauailabs.navx.frc.AHRS;
+>>>>>>> branch 'master' of https://github.com/awtybots/FRC-2018.git
 
 
 /**
@@ -37,7 +41,11 @@ public class Robot extends TimedRobot {
 	public static final Arm arm = new Arm();
 	public static final CubeIntake intake = new CubeIntake();
 	
+<<<<<<< HEAD
 	//public static AHRS navx = new AHRS(SerialPort.Port.kMXP);
+=======
+	public static AHRS navx = new AHRS(SerialPort.Port.kMXP);
+>>>>>>> branch 'master' of https://github.com/awtybots/FRC-2018.git
 	public static OI oi;
 
 	Command autonomousCommand;
@@ -49,6 +57,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
+<<<<<<< HEAD
 		//Robot.navx.resetDisplacement();
 		//UsbCamera cam0 = CameraServer.getInstance().startAutomaticCapture(0);
 		
@@ -78,6 +87,37 @@ public class Robot extends TimedRobot {
 			autoChooser.addObject("Right Scale", new RunAuton(gameData.charAt(1), 5)); //right scale
 		}
 		SmartDashboard.putData("Auto mode", autoChooser);*/
+=======
+		Robot.navx.resetDisplacement();
+		UsbCamera cam0 = CameraServer.getInstance().startAutomaticCapture(0);
+		
+		cam0.setFPS(8);
+		
+		autoChooser = new SendableChooser();
+		
+		String gameData;
+		gameData = DriverStation.getInstance().getGameSpecificMessage();
+		
+		//center auto
+		autoChooser.addDefault("Drive Forward", new RunAuton(gameData.charAt(0), 0)); //drive forward
+		
+		//auto for Switch
+		if(gameData.charAt(0) == 'L') {
+			autoChooser.addObject("Left Switch", new RunAuton(gameData.charAt(0), 2)); //left switch
+			autoChooser.addObject("Center Switch", new RunAuton(gameData.charAt(0), 1)); //center switch
+		}else {
+			autoChooser.addObject("Right Switch", new RunAuton(gameData.charAt(0), 3));
+			autoChooser.addObject("Center Switch", new RunAuton(gameData.charAt(1), 1)); //center switch
+		}
+		
+		//auto for Scale
+		if(gameData.charAt(1) == 'L') {
+			autoChooser.addObject("Left Scale", new RunAuton(gameData.charAt(1), 4)); //left scale
+		}else {
+			autoChooser.addObject("Right Scale", new RunAuton(gameData.charAt(1), 5)); //right scale
+		}
+		SmartDashboard.putData("Auto mode", autoChooser);
+>>>>>>> branch 'master' of https://github.com/awtybots/FRC-2018.git
 		oi = new OI();
 	}
 
@@ -90,7 +130,11 @@ public class Robot extends TimedRobot {
 	public void disabledInit() {
 		Robot.driveBase.leftMiddleMotor.setSelectedSensorPosition(0,0,0);
 		Robot.driveBase.rightMiddleMotor.setSelectedSensorPosition(0, 0, 0);
+<<<<<<< HEAD
 		//Robot.navx.reset();
+=======
+		Robot.navx.reset();
+>>>>>>> branch 'master' of https://github.com/awtybots/FRC-2018.git
 	}
 
 	@Override
@@ -114,9 +158,15 @@ public class Robot extends TimedRobot {
 		
 		Robot.driveBase.leftMiddleMotor.getSelectedSensorPosition(0);
 		Robot.driveBase.rightMiddleMotor.getSelectedSensorPosition(0);
+<<<<<<< HEAD
 		//Robot.navx.reset();
 		
 		//Robot.navx.resetDisplacement();
+=======
+		Robot.navx.reset();
+		
+		Robot.navx.resetDisplacement();
+>>>>>>> branch 'master' of https://github.com/awtybots/FRC-2018.git
 		autonomousCommand = (Command) autoChooser.getSelected();
 		autonomousCommand.start();
 
@@ -147,7 +197,11 @@ public class Robot extends TimedRobot {
 		
 		Robot.driveBase.leftMiddleMotor.setSelectedSensorPosition(0, 0, 0);
 		Robot.driveBase.rightMiddleMotor.setSelectedSensorPosition(0, 0, 0);
+<<<<<<< HEAD
 		//Robot.navx.reset();
+=======
+		Robot.navx.reset();
+>>>>>>> branch 'master' of https://github.com/awtybots/FRC-2018.git
 		
 		if (autonomousCommand != null) {
 			autonomousCommand.cancel();

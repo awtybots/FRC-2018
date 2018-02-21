@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5829.robot.commands;
 
 import org.usfirst.frc.team5829.robot.Robot;
+import org.usfirst.frc.team5829.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -34,7 +35,7 @@ public class SplitArcade extends Command {
     		rotate = 0;
     	}
     	
-    	Robot.driveBase.SplitArcade(straight, rotate);
+    	DriveTrain.SplitArcade(straight, rotate);
     }
 
     // Make this return true when this Command no longer needs to run execute()

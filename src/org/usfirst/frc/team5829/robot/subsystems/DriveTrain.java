@@ -62,7 +62,8 @@ public class DriveTrain extends Subsystem {
     }
     
     public boolean turnDegrees(double dg) {
-    	/*double yaw = Robot.navx.getYaw();
+
+    	//double yaw = Robot.navx.getYaw();
     	double angle = Robot.navx.getAngle();
     	boolean isFinished = false;
     	
@@ -130,8 +131,9 @@ public class DriveTrain extends Subsystem {
     		}
     	}
     	
-    	SmartDashboard.putBoolean("Turn finished:", isFinished);*/
-    	return true;
+    	SmartDashboard.putBoolean("Turn finished:", isFinished);
+    	return isFinished;
+>>>>>>> branch 'master' of https://github.com/awtybots/FRC-2018.git
     }
     
     public void resetEncoderPosition() { 
