@@ -133,7 +133,6 @@ public class DriveTrain extends Subsystem {
     	
     	SmartDashboard.putBoolean("Turn finished:", isFinished);
     	return isFinished;
->>>>>>> branch 'master' of https://github.com/awtybots/FRC-2018.git
     }
     
     public void resetEncoderPosition() { 
