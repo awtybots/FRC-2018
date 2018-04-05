@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -21,6 +22,8 @@ import org.usfirst.frc.team5829.robot.commands.RunAuton;
 import org.usfirst.frc.team5829.robot.subsystems.Arm;
 import org.usfirst.frc.team5829.robot.subsystems.CubeIntake;
 import org.usfirst.frc.team5829.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team5829.robot.subsystems.LIDARSubsystem;
+
 import com.kauailabs.navx.frc.AHRS;
 
 
@@ -35,9 +38,11 @@ public class Robot extends TimedRobot {
 	public static final DriveTrain driveBase = new DriveTrain();
 	public static final Arm arm = new Arm();
 	public static final CubeIntake intake = new CubeIntake();
-
+	public static final LIDARSubsystem lidarSubsystem = new LIDARSubsystem();
 	public static AHRS navx = new AHRS(SerialPort.Port.kMXP);
 	public static OI oi;
+	
+	public double m_autoInitTime = 0;
 
 	Command autonomousCommand;
 	SendableChooser autoChooser;
@@ -48,21 +53,20 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
-		Robot.navx.resetDisplacement();
+		
+		//Robot.navx.resetDisplacement();
 		UsbCamera cam0 = CameraServer.getInstance().startAutomaticCapture(0);
 		
 		cam0.setFPS(8);
 		
 		autoChooser = new SendableChooser();
 		
-		String gameData;
-		gameData = DriverStation.getInstance().getGameSpecificMessage();
-		
 		//center auto
-		autoChooser.addDefault("Drive Forward", new RunAuton(gameData.charAt(0), 0)); //drive forward
+		autoChooser.addDefault("Drive Forward", new RunAuton(0)); //drive forward
+		autoChooser.addDefault("Switch Auto", new RunAuton(1));
 		
 		//auto for Switch
-		if(gameData.charAt(0) == 'L') {
+		/*if(gameData.charAt(0) == 'L') {
 			autoChooser.addObject("Left Switch", new RunAuton(gameData.charAt(0), 2)); //left switch
 			autoChooser.addObject("Center Switch", new RunAuton(gameData.charAt(0), 1)); //center switch
 		}else {
@@ -75,7 +79,7 @@ public class Robot extends TimedRobot {
 			autoChooser.addObject("Left Scale", new RunAuton(gameData.charAt(1), 4)); //left scale
 		}else {
 			autoChooser.addObject("Right Scale", new RunAuton(gameData.charAt(1), 5)); //right scale
-		}
+		}*/
 		SmartDashboard.putData("Auto mode", autoChooser);
 		oi = new OI();
 	}
@@ -87,8 +91,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
-		Robot.driveBase.leftMiddleMotor.setSelectedSensorPosition(0,0,0);
-		Robot.driveBase.rightMiddleMotor.setSelectedSensorPosition(0, 0, 0);
+		
 	}
 
 	@Override
@@ -109,21 +112,11 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		
-		Robot.driveBase.leftMiddleMotor.getSelectedSensorPosition(0);
-		Robot.driveBase.rightMiddleMotor.getSelectedSensorPosition(0);
 
 		autonomousCommand = (Command) autoChooser.getSelected();
 		autonomousCommand.start();
-
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
-		 */
-
-		// schedule the autonomous command (example)
+		
+		//m_autoInitTime = Timer.getFPGATimestamp();
 	}
 
 	/**
@@ -131,6 +124,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
+			
 		Scheduler.getInstance().run();
 	}
 
@@ -141,8 +135,8 @@ public class Robot extends TimedRobot {
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
 		
-		Robot.driveBase.leftMiddleMotor.setSelectedSensorPosition(0, 0, 0);
-		Robot.driveBase.rightMiddleMotor.setSelectedSensorPosition(0, 0, 0);
+		//Robot.driveBase.leftMiddleMotor.setSelectedSensorPosition(0, 0, 0);
+		//Robot.driveBase.rightMiddleMotor.setSelectedSensorPosition(0, 0, 0);
 
 		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
@@ -155,6 +149,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		SmartDashboard.putNumber("rightEncoder", Robot.driveBase.rightBackMotor.getSelectedSensorPosition(9));
+		SmartDashboard.putBoolean("Bumper", Robot.arm.getBumperValue());
 	}
 
 	/**

@@ -8,6 +8,7 @@
 package org.usfirst.frc.team5829.robot;
 
 import org.usfirst.frc.team5829.robot.commands.ArmMove;
+import org.usfirst.frc.team5829.robot.commands.IntakeCube;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -46,8 +47,8 @@ public class OI {
 	Button btnB2 = new JoystickButton(xbox2, 2);
 	Button btnX2 = new JoystickButton(xbox2, 3);
 	Button btnY2 = new JoystickButton(xbox2, 4);
-	Button btnL12 = new JoystickButton(xbox2, 5);
-	Button btnR12 = new JoystickButton(xbox2, 6);
+	Button btnL2 = new JoystickButton(xbox2, 5);
+	Button btnR2 = new JoystickButton(xbox2, 6);
 	Button btnM2 = new JoystickButton(xbox2, 7);
 	Button btnS2 = new JoystickButton(xbox2, 8);
 	Button btnW2 = new JoystickButton(xbox2, 9);
@@ -96,14 +97,35 @@ public class OI {
 	
 	public OI() {
 		
+		//first controller
+		
+		//Move Arm
 		btnL1.whenPressed(new ArmMove(1, 0));
 		btnL1.whenReleased(new ArmMove(0, 0));
 		
 		btnR1.whenPressed(new ArmMove(-1, 0));
 		btnR1.whenReleased(new ArmMove(0, 0));
 		
+		//Move Intake
 		btnB.toggleWhenPressed(new ArmMove(0, 1));
 		
+		//Move Intake Arms
+		btnY.toggleWhenPressed(new IntakeCube(1));
 		
+		
+		//second controller
+		
+		//Move Arm
+		btnL2.whenPressed(new IntakeCube(1));
+		btnL2.whenReleased(new IntakeCube(0));
+		
+		btnR2.whenPressed(new IntakeCube(-1));
+		btnR2.whenReleased(new IntakeCube(0));
+		
+		//Move Intake
+		btnB2.toggleWhenPressed(new ArmMove(0, 1));
+		
+		//Move Intake Arms
+		btnY2.toggleWhenPressed(new IntakeCube(1));
 	}
 }

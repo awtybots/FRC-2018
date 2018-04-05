@@ -4,10 +4,12 @@ import org.usfirst.frc.team5829.robot.Robot;
 import org.usfirst.frc.team5829.robot.RobotMap;
 import org.usfirst.frc.team5829.robot.commands.SplitArcade;
 
+import com.ctre.CANTalon;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -27,160 +29,139 @@ public class DriveTrain extends Subsystem {
 	public static TalonSRX rightMiddleMotor = new TalonSRX(RobotMap.rightMiddleMotor);
 	public static TalonSRX rightFrontMotor = new TalonSRX(RobotMap.rightFrontMotor);
 	
+	public static final double CONSTANT_RAMP_LIMIT = 0.05;
+	public static double prevStraight = 0;
+	public static double prevRotate = 0;
+	public static double prevLeft = 0;
+	public static double prevRight = 0;
+	public static boolean allowRamped = true;
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
     	setDefaultCommand(new SplitArcade());
+    	rightMiddleMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,0 ,10);
+    	leftMiddleMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
+    	// rightMiddleMotor.setSensorPhase(true);
+    	leftMiddleMotor.setSensorPhase(true);
+    	leftMiddleMotor.setSelectedSensorPosition(0, 0, 10);
+    }
+    
+    public void setRamped(boolean a) {
+    	this.allowRamped = a;
+    }
+    
+    public boolean getRamped() {
+    	return this.allowRamped;
     }
     
     public static void TankDrive(double leftSpeed, double rightSpeed) {
-    	leftBackMotor.set(ControlMode.PercentOutput, leftSpeed);
-    	leftMiddleMotor.set(ControlMode.PercentOutput, leftSpeed);
-    	leftFrontMotor.set(ControlMode.PercentOutput, leftSpeed);
-    	rightBackMotor.set(ControlMode.PercentOutput, rightSpeed);
-    	rightMiddleMotor.set(ControlMode.PercentOutput, rightSpeed);
-    	rightFrontMotor.set(ControlMode.PercentOutput, rightSpeed);
+    	
+    	if(leftSpeed - prevLeft > CONSTANT_RAMP_LIMIT)
+    	{
+    		leftSpeed = prevLeft + CONSTANT_RAMP_LIMIT;
+    	}
+    	else if(prevLeft - leftSpeed > CONSTANT_RAMP_LIMIT)
+    	{
+    		leftSpeed = prevLeft - CONSTANT_RAMP_LIMIT;
+    	}
+    	
+    	if(rightSpeed - prevRight > CONSTANT_RAMP_LIMIT)
+    	{
+    		rightSpeed = prevRight + CONSTANT_RAMP_LIMIT;
+    	}
+    	else if(prevRight - rightSpeed > CONSTANT_RAMP_LIMIT)
+    	{
+    		rightSpeed = prevRight - CONSTANT_RAMP_LIMIT;
+    	}
+    	
+    	prevLeft = leftSpeed;
+    	prevRight = rightSpeed;
+    	leftBackMotor.set(ControlMode.PercentOutput,leftSpeed);
+    	leftMiddleMotor.set(ControlMode.PercentOutput,leftSpeed);
+    	leftFrontMotor.set(ControlMode.PercentOutput,leftSpeed);
+    	rightBackMotor.set(ControlMode.PercentOutput,rightSpeed);
+    	rightMiddleMotor.set(ControlMode.PercentOutput,rightSpeed);
+    	rightFrontMotor.set(ControlMode.PercentOutput,rightSpeed);
     }
     
     public static void SplitArcade(double straight, double rotate) {
-    	leftFrontMotor.set(ControlMode.PercentOutput, (straight + rotate));
-    	leftMiddleMotor.set(ControlMode.PercentOutput, (straight + rotate));
-    	leftBackMotor.set(ControlMode.PercentOutput, (straight + rotate));
-    	rightFrontMotor.set(ControlMode.PercentOutput, (straight - rotate));
-    	rightMiddleMotor.set(ControlMode.PercentOutput, (straight - rotate));
-    	rightBackMotor.set(ControlMode.PercentOutput, (straight - rotate));
+    	double value = leftMiddleMotor.getSelectedSensorPosition(0);
+    	System.out.println(value);
+    	if(straight - prevStraight > CONSTANT_RAMP_LIMIT)
+    	{
+    		straight = prevStraight + CONSTANT_RAMP_LIMIT;
+    	}
+    	else if(prevStraight - straight > CONSTANT_RAMP_LIMIT)
+    	{
+    		straight = prevStraight - CONSTANT_RAMP_LIMIT;
+    	}
+    	
+    	if(rotate - prevRotate > CONSTANT_RAMP_LIMIT){
+    		rotate = prevRotate + CONSTANT_RAMP_LIMIT;
+    	}
+    	else if(prevRotate - rotate > CONSTANT_RAMP_LIMIT)
+    	{
+    		rotate = prevRotate - CONSTANT_RAMP_LIMIT;
+    	}
+    	
+    	prevStraight = straight;
+    	prevRotate = rotate;
+    	
+    	leftFrontMotor.set(ControlMode.PercentOutput,straight + rotate);
+    	leftMiddleMotor.set(ControlMode.PercentOutput,straight + rotate);
+    	leftBackMotor.set(ControlMode.PercentOutput,straight + rotate);
+    	rightFrontMotor.set(ControlMode.PercentOutput,straight - rotate);
+    	rightMiddleMotor.set(ControlMode.PercentOutput,straight - rotate);
+    	rightBackMotor.set(ControlMode.PercentOutput,straight - rotate);
     }
-    
-    public double encoderToInches(double ticks) {
-    	double diameter = 4; 
+    public double encoderToInches(double ticks){
+    	double diameter = 4;
     	double circumference = 2*Math.PI*diameter;
     	double rotations = ticks/1024;
     	double inches = rotations*circumference;
-    	
-    	return inches;
+    	return inches;	
     }
     
-    public boolean turnDegrees(double dg) {
-
-    	//double yaw = Robot.navx.getYaw();
-    	double angle = Robot.navx.getAngle();
-    	boolean isFinished = false;
+    public static void resetEncoder() {
+    	rightMiddleMotor.setSelectedSensorPosition(0 ,0, 10);
+    	leftMiddleMotor.setSelectedSensorPosition(0, 0, 10);
     	
-    	if(angle > 360 || angle < -360) {
-    		angle = ((angle%360)*360);
-    	}
-    	
-    	SmartDashboard.putNumber("angle value:", angle);
-    	
-    	double motorSpeed = .7;
-    	if(dg > 0) {
-    		if(angle < (dg-5)) {
-    			leftBackMotor.set(ControlMode.PercentOutput, -motorSpeed);
-    	    	leftMiddleMotor.set(ControlMode.PercentOutput, -motorSpeed);
-    	    	leftFrontMotor.set(ControlMode.PercentOutput, -motorSpeed);
-    	    	rightBackMotor.set(ControlMode.PercentOutput, -motorSpeed);
-    	    	rightMiddleMotor.set(ControlMode.PercentOutput, -motorSpeed);
-    	    	rightFrontMotor.set(ControlMode.PercentOutput, -motorSpeed);
-    	    	isFinished = false;
-    		}else if(angle > (dg+5)){
-    			leftBackMotor.set(ControlMode.PercentOutput, motorSpeed);
-    	    	leftMiddleMotor.set(ControlMode.PercentOutput, motorSpeed);
-    	    	leftFrontMotor.set(ControlMode.PercentOutput, motorSpeed);
-    	    	rightBackMotor.set(ControlMode.PercentOutput, motorSpeed);
-    	    	rightMiddleMotor.set(ControlMode.PercentOutput, motorSpeed);
-    	    	rightFrontMotor.set(ControlMode.PercentOutput, motorSpeed);
-    	    	isFinished = false;
-    		}else if(angle < (dg+4.9) && angle > (dg-4.9)) {
-    			leftBackMotor.set(ControlMode.PercentOutput, 0);
-    	    	leftMiddleMotor.set(ControlMode.PercentOutput, 0);
-    	    	leftFrontMotor.set(ControlMode.PercentOutput, 0);
-    	    	rightBackMotor.set(ControlMode.PercentOutput, 0);
-    	    	rightMiddleMotor.set(ControlMode.PercentOutput, 0);
-    	    	rightFrontMotor.set(ControlMode.PercentOutput, 0);
-    	    	isFinished = true;
+    }
+    
+    public static void driveForward(double distance)
+    {    	
+    	double right = rightMiddleMotor.getSelectedSensorPosition(0);
+    	double left = leftMiddleMotor.getSelectedSensorPosition(0);
+    	while (right < distance || left < distance){
+    		if(right > distance || left > distance){
+    			break;
     		}
-    		
+    		right = rightMiddleMotor.getSelectedSensorPosition(0);
+        	left = leftMiddleMotor.getSelectedSensorPosition(0);
+        	System.out.println(left+" "+right);
+    		TankDrive(.2, -.2);
     	}
     	
-    	if(dg < 0) {
-    		if(angle < (dg-5)) {
-    			leftBackMotor.set(ControlMode.PercentOutput, -motorSpeed);
-    	    	leftMiddleMotor.set(ControlMode.PercentOutput, -motorSpeed);
-    	    	leftFrontMotor.set(ControlMode.PercentOutput, -motorSpeed);
-    	    	rightBackMotor.set(ControlMode.PercentOutput, -motorSpeed);
-    	    	rightMiddleMotor.set(ControlMode.PercentOutput, -motorSpeed);
-    	    	rightFrontMotor.set(ControlMode.PercentOutput, -motorSpeed);
-    	    	isFinished = false;
-    		}else if(angle > (dg+5)){
-    			leftBackMotor.set(ControlMode.PercentOutput, motorSpeed);
-    	    	leftMiddleMotor.set(ControlMode.PercentOutput, motorSpeed);
-    	    	leftFrontMotor.set(ControlMode.PercentOutput, motorSpeed);
-    	    	rightBackMotor.set(ControlMode.PercentOutput, motorSpeed);
-    	    	rightMiddleMotor.set(ControlMode.PercentOutput, motorSpeed);
-    	    	rightFrontMotor.set(ControlMode.PercentOutput, motorSpeed);
-    	    	isFinished = false;
-    		}else if(angle < (dg+4.9) && angle > (dg-4.9)) {
-    			leftBackMotor.set(ControlMode.PercentOutput, 0);
-    	    	leftMiddleMotor.set(ControlMode.PercentOutput, 0);
-    	    	leftFrontMotor.set(ControlMode.PercentOutput, 0);
-    	    	rightBackMotor.set(ControlMode.PercentOutput, 0);
-    	    	rightMiddleMotor.set(ControlMode.PercentOutput, 0);
-    	    	rightFrontMotor.set(ControlMode.PercentOutput, 0);
-    	    	isFinished = true;
+    	TankDrive(0, 0);
+    }
+    
+    public static void driveTurn(double distance, char turn){
+    	double right = rightMiddleMotor.getSelectedSensorPosition(0);
+    	double left = leftMiddleMotor.getSelectedSensorPosition(0);
+    	
+    	while (right < distance || left < distance){
+    		if(right > distance || left > distance){
+    			break;
+    		}
+    		right = rightMiddleMotor.getSelectedSensorPosition(0);
+        	left = leftMiddleMotor.getSelectedSensorPosition(0);
+    		System.out.println(left+" "+right);
+    		if(turn == 'L'){
+    			TankDrive(-.2, -.2);
+    		}else if(turn == 'R'){
+    			TankDrive(.2, .2);
     		}
     	}
-    	
-    	SmartDashboard.putBoolean("Turn finished:", isFinished);
-    	return isFinished;
-    }
-    
-    public void resetEncoderPosition() { 
-    	leftMiddleMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
-    	rightMiddleMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
-    }
-    
-    public boolean driveForward(double ds, double speed) {
-    	
-    	double motorSpeed = speed;
-    	double diameter = 4;
-    	double circumference = diameter;
-    	double distance = ds;
-    	double lBMP = leftMiddleMotor.getSelectedSensorPosition(0);
-    	double rBMP = rightMiddleMotor.getSelectedSensorPosition(0);
-    	double distanceDrivenRight = ((rBMP/1024)*circumference);
-    	double distanceDrivenLeft = ((lBMP/1024)*circumference);
-    	double avgDistanceDriven = ((distanceDrivenRight + distanceDrivenLeft)/2);
-    	
-    	SmartDashboard.putNumber("Auto Left Driven:", distanceDrivenLeft);
-    	SmartDashboard.putNumber("Auto Right Driven:", distanceDrivenRight);
-    	
-    	if((distanceDrivenLeft > -distance) && distance > 0) {
-    		leftBackMotor.set(ControlMode.PercentOutput, -motorSpeed);
-	    	leftMiddleMotor.set(ControlMode.PercentOutput, -motorSpeed);
-	    	leftFrontMotor.set(ControlMode.PercentOutput, -motorSpeed);
-	    	rightBackMotor.set(ControlMode.PercentOutput, motorSpeed);
-	    	rightMiddleMotor.set(ControlMode.PercentOutput, motorSpeed);
-	    	rightFrontMotor.set(ControlMode.PercentOutput, motorSpeed);
-	    	
-	    	return false;
-    	}else if(Math.abs(distanceDrivenLeft) < Math.abs(distance) && distance < 0) {
-    		leftBackMotor.set(ControlMode.PercentOutput, motorSpeed);
-	    	leftMiddleMotor.set(ControlMode.PercentOutput, motorSpeed);
-	    	leftFrontMotor.set(ControlMode.PercentOutput, motorSpeed);
-	    	rightBackMotor.set(ControlMode.PercentOutput, -motorSpeed);
-	    	rightMiddleMotor.set(ControlMode.PercentOutput, -motorSpeed);
-	    	rightFrontMotor.set(ControlMode.PercentOutput, -motorSpeed);
-	    	
-	    	return false;
-    	}else
-    		leftBackMotor.set(ControlMode.PercentOutput, 0);
-    	leftMiddleMotor.set(ControlMode.PercentOutput, 0);
-    	leftFrontMotor.set(ControlMode.PercentOutput, 0);
-    	rightBackMotor.set(ControlMode.PercentOutput, 0);
-    	rightMiddleMotor.set(ControlMode.PercentOutput, 0);
-    	rightFrontMotor.set(ControlMode.PercentOutput, 0);
-    	
-    	return true;
+    	TankDrive(0, 0);
     }
 }

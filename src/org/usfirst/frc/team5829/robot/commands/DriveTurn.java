@@ -8,35 +8,26 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class TankDriveCommand extends Command {
+public class DriveTurn extends Command {
+	
+	public double value;
+	public char turn;
 
-	public double leftSpeed, rightSpeed;
-
-    public TankDriveCommand(double left, double right) {
+    public DriveTurn(double distance, char direction) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	leftSpeed = left;
-    	rightSpeed = right;
+    	turn = direction;
+    	value = distance;
     	requires(Robot.driveBase);
     }
 
     // Called just before this Command runs the first time
-    protected void initialize() {
-    }
+    protected void initialize(){}
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	leftSpeed = -(Robot.oi.xbox.getRawAxis(1));
-    	rightSpeed = (Robot.oi.xbox.getRawAxis(5));
-    	
-    	if(Math.abs(leftSpeed) < .2) {
-    		leftSpeed = 0;
-    	}
-    	if(Math.abs(rightSpeed) < .2) {
-    		rightSpeed = 0;
-    	}
-    	
-    	DriveTrain.TankDrive(leftSpeed, rightSpeed);
+    	DriveTrain.resetEncoder();
+    	DriveTrain.driveTurn(value, turn);
     }
 
     // Make this return true when this Command no longer needs to run execute()
