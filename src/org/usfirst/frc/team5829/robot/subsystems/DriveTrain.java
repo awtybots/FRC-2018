@@ -35,6 +35,12 @@ public class DriveTrain extends Subsystem {
 	public static double prevLeft = 0;
 	public static double prevRight = 0;
 	public static boolean allowRamped = true;
+	
+	public double desiredAngle, initialAngle;
+	public boolean firstTime = true;
+	public boolean isFinished;
+	public double leftSpeed = .45;
+	public double rightSpeed = .45;
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
@@ -43,7 +49,6 @@ public class DriveTrain extends Subsystem {
     	leftBackMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
     	rightMiddleMotor.setSensorPhase(false);
     	leftBackMotor.setSensorPhase(true);
-    	//leftMiddleMotor.setSelectedSensorPosition(0, 0, 10);
     }
     
     public void setRamped(boolean a) {
@@ -113,6 +118,7 @@ public class DriveTrain extends Subsystem {
     	rightMiddleMotor.set(ControlMode.PercentOutput,-(straight - rotate));
     	rightBackMotor.set(ControlMode.PercentOutput,-(straight - rotate));
     }
+    
     public double encoderToInches(double ticks){
     	double diameter = 4;
     	double circumference = 2*Math.PI*diameter;
@@ -127,40 +133,213 @@ public class DriveTrain extends Subsystem {
     	
     }
     
-//    public static void driveForward(double distance){    	
-//    	double right = rightMiddleMotor.getSelectedSensorPosition(0);
-//    	double left = leftMiddleMotor.getSelectedSensorPosition(0);
-//    	while (right < distance || left < distance){
-//    		if(right > distance || left > distance){
-//    			break;
-//    		}
-//    		right = rightMiddleMotor.getSelectedSensorPosition(0);
-//        	left = leftMiddleMotor.getSelectedSensorPosition(0);
-//        	System.out.println(left+" "+right);
-//    		TankDrive(.2, -.2);
-//    	}
-//    	
-//    	TankDrive(0, 0);
-//    }
-    public static void driveTurn(double distance, char turn){
-    	double right = rightMiddleMotor.getSelectedSensorPosition(0);
-    	double left = leftBackMotor.getSelectedSensorPosition(0);
+    //turn drive
+    public boolean turnDegrees(double dg) {
+    	double yaw = Robot.navx.getYaw();
+    	double angle = Robot.navx.getAngle();
+    	;
+    	if (angle > 360 || angle <-360 ) {
+    		angle = ((angle%360) * 360);
+    		
+    	}
+    	SmartDashboard.putNumber("angle value", angle);
     	
-    	while (right < distance || left < distance){
-    		if(right > distance || left > distance){
-    			break;
+    	
+    	double motorSpeed = .4;
+    	//double motorSpeed = ((difference/dg));
+    	if (dg > 0) {
+    	if (angle < (dg-5)   ) {
+    		
+    		leftFrontMotor.set(ControlMode.PercentOutput, -motorSpeed);
+    		leftMiddleMotor.set(ControlMode.PercentOutput, -motorSpeed);
+    		leftBackMotor.set(ControlMode.PercentOutput, -motorSpeed);
+    		rightBackMotor.set(ControlMode.PercentOutput, -motorSpeed);
+    		rightMiddleMotor.set(ControlMode.PercentOutput, -motorSpeed);
+    		rightFrontMotor.set(ControlMode.PercentOutput, -motorSpeed);
+    		isFinished = false;
+    	}
+    	else if (angle > (dg+5)  ) {
+    		leftFrontMotor.set(ControlMode.PercentOutput, motorSpeed);
+    		leftMiddleMotor.set(ControlMode.PercentOutput, motorSpeed);
+    		leftBackMotor.set(ControlMode.PercentOutput, motorSpeed);
+    		rightBackMotor.set(ControlMode.PercentOutput, motorSpeed);
+    		rightMiddleMotor.set(ControlMode.PercentOutput, motorSpeed);
+    		rightFrontMotor.set(ControlMode.PercentOutput, motorSpeed);
+    		isFinished = false;
+    		
+    	}
+    	else if (angle < (dg+4.9) && angle > (dg-4.9)) {
+    		leftFrontMotor.set(ControlMode.PercentOutput, 0);
+    		leftMiddleMotor.set(ControlMode.PercentOutput, 0);
+    		leftBackMotor.set(ControlMode.PercentOutput, 0);
+    		rightBackMotor.set(ControlMode.PercentOutput, 0);
+    		rightMiddleMotor.set(ControlMode.PercentOutput, 0);
+    		rightFrontMotor.set(ControlMode.PercentOutput, 0);
+    		isFinished = true;
+ 
     		}
+    	return isFinished;
+    	}
+    	else if (dg < 0) {
+        	if (angle < (dg - 5)   ) {
+        		leftFrontMotor.set(ControlMode.PercentOutput, -motorSpeed);
+        		leftMiddleMotor.set(ControlMode.PercentOutput, -motorSpeed);
+        		leftBackMotor.set(ControlMode.PercentOutput, -motorSpeed);
+        		rightBackMotor.set(ControlMode.PercentOutput, -motorSpeed);
+        		rightMiddleMotor.set(ControlMode.PercentOutput, -motorSpeed);
+        		rightFrontMotor.set(ControlMode.PercentOutput, -motorSpeed);
+        		isFinished = false;
+        	}
+        	else if (angle > (dg+5)  ) {
+        		leftFrontMotor.set(ControlMode.PercentOutput, motorSpeed);
+        		leftMiddleMotor.set(ControlMode.PercentOutput, motorSpeed);
+        		leftBackMotor.set(ControlMode.PercentOutput, motorSpeed);
+        		rightBackMotor.set(ControlMode.PercentOutput, motorSpeed);
+        		rightMiddleMotor.set(ControlMode.PercentOutput, motorSpeed);
+        		rightFrontMotor.set(ControlMode.PercentOutput, motorSpeed);
+        		isFinished= false;
+        	}
+        	else if (angle < (dg+4.9) && angle > (dg-4.9)) {
+        		leftFrontMotor.set(ControlMode.PercentOutput, 0);
+        		leftMiddleMotor.set(ControlMode.PercentOutput, 0);
+        		leftBackMotor.set(ControlMode.PercentOutput, 0);
+        		rightBackMotor.set(ControlMode.PercentOutput, 0);
+        		rightMiddleMotor.set(ControlMode.PercentOutput, 0);
+        		rightFrontMotor.set(ControlMode.PercentOutput, 0);
+        		isFinished= true;
+     
+        	}
+        	return isFinished;
+    	}
+    	SmartDashboard.putBoolean("Finished turn?", isFinished);
+    	return isFinished;
+    }
+    
+    //drive straight
+    public boolean driveForward(double ds) {
+  
+    	double diameter = 4;
+    	double circumference = diameter;
+    	double distance = ds;
+    	double lBMP = leftBackMotor.getSelectedSensorPosition(0);
+    	double rBMP = rightMiddleMotor.getSelectedSensorPosition(0);
+    	double distanceDrivenRight = ((rBMP/1024)*circumference);
+    	double distanceDrivenLeft =((lBMP/1024)*circumference);
+    	double avgDistanceDriven = ((distanceDrivenRight + distanceDrivenLeft)/2);
+    
+    	SmartDashboard.putNumber("Auto Left Driven", distanceDrivenLeft);
+    	SmartDashboard.putNumber("Auto Right Driven", distanceDrivenRight);
+    	
+    	
+        //Are we there yet?
+    	
+    	if ((/* distanceDrivenRight > -distance || */ distanceDrivenLeft > -distance) && distance > 0 ) {
+    		/*if (Math.abs(distanceDrivenRight )> Math.abs(distanceDrivenLeft)) {
+    			leftSpeed = leftSpeed + 0.0075;
+    		}
+    		else if (Math.abs(distanceDrivenLeft) > Math.abs(distanceDrivenRight) ) {
+    			leftSpeed= leftSpeed - 0.0025;
+    		}*/
+    		leftFrontMotor.set(ControlMode.PercentOutput, -leftSpeed);
+    		leftMiddleMotor.set(ControlMode.PercentOutput, -leftSpeed);
+    		leftBackMotor.set(ControlMode.PercentOutput, -leftSpeed);
+    		rightBackMotor.set(ControlMode.PercentOutput, rightSpeed);
+    		rightMiddleMotor.set(ControlMode.PercentOutput, rightSpeed);
+    		rightFrontMotor.set(ControlMode.PercentOutput, rightSpeed);
+    		return false;
 
-    		right = rightMiddleMotor.getSelectedSensorPosition(0);
-        	left = leftMiddleMotor.getSelectedSensorPosition(0);
-    		System.out.println(left+" "+right);
+    	}
+    	else if (Math.abs(distanceDrivenLeft) <  Math.abs(distance) && distance < 0) {
+    		/*if (Math.abs(distanceDrivenRight )> Math.abs(distanceDrivenLeft)) {
+    			leftSpeed = leftSpeed + 0.0035;
+    			return false;
+    		}
+    		else if (Math.abs(distanceDrivenLeft) > Math.abs(distanceDrivenRight) ) {
+    			leftSpeed= leftSpeed - 0.0035;
+    		}*/
+    		leftFrontMotor.set(ControlMode.PercentOutput, leftSpeed);
+    		leftMiddleMotor.set(ControlMode.PercentOutput, leftSpeed);
+    		leftBackMotor.set(ControlMode.PercentOutput, leftSpeed);
+    		rightBackMotor.set(ControlMode.PercentOutput, -rightSpeed);
+    		rightMiddleMotor.set(ControlMode.PercentOutput, -rightSpeed);
+    		rightFrontMotor.set(ControlMode.PercentOutput, -rightSpeed);
 
-    		if(turn == 'L'){
-    			TankDrive(-.2, -.2);
-    		}else if(turn == 'R'){
-    			TankDrive(.2, .2);
+    		return false;
+    		
+    	}
+    	else  {
+    		leftFrontMotor.set(ControlMode.PercentOutput, 0);
+    		leftMiddleMotor.set(ControlMode.PercentOutput, 0);
+    		leftBackMotor.set(ControlMode.PercentOutput, 0);
+    		rightBackMotor.set(ControlMode.PercentOutput, 0);
+    		rightMiddleMotor.set(ControlMode.PercentOutput, 0);
+    		rightFrontMotor.set(ControlMode.PercentOutput, 0);
+    		return true;
+    	}
+
+    }
+    
+    //curve drive
+    public void curve(double changeX, double changeY, double changeAngle) {
+    	
+    	desiredAngle = changeAngle;
+    	SmartDashboard.putNumber("Desired Angle", desiredAngle);
+    	double r = changeY/Math.sin(changeAngle);
+    	double speed = .25;
+    	double radiusRight = r +15.5;
+    	double radiusLeft = r - 15.5;
+    	double time = 3;
+    	// Low gear max RPM is 530
+    	double rPMMax = 530;
+    	double rPSMax = rPMMax/60;
+    	double diameter = 4;
+    	double circumference = 4;
+    	double velocityMax = rPSMax*circumference;
+    	
+    	if (firstTime = true) {
+        	double initialLeftDriven = leftBackMotor.getSelectedSensorPosition(0);
+        	double initialRightDriven = rightMiddleMotor.getSelectedSensorPosition(0);
+        	initialAngle = Robot.navx.getAngle();
+        	double initialXPos = 30;
+        	double initialYPos = 14.5;
+        	double desiredXPos = initialXPos + changeX;
+        	double desiredYPos = initialYPos + changeY;
+        	
+        	firstTime = false;
+
+    	}
+    	double arcForRight = ((desiredAngle)/360)*(2*3.14*radiusRight);
+    	double arcForLeft = ((desiredAngle)/360)*(2*3.14*radiusLeft);
+    	double velocityRight = (arcForRight)/time;
+    	double velocityLeft = -(arcForLeft)/time;
+    	double percentageRight = velocityRight/velocityMax;
+    	double percentageLeft = velocityLeft/velocityMax;
+    	
+    	if (changeX > 0 && changeY > 0 ) {
+    		if (changeAngle > 0 ) {
+    			if ((Robot.navx.getAngle() < desiredAngle) && (Math.abs(encoderToInches(leftBackMotor.getSelectedSensorPosition(0))) < ((2*3.14*(r)*((180-changeAngle)/360)) ) ) && (Math.abs(encoderToInches(rightMiddleMotor.getSelectedSensorPosition(0))) < ((2*3.14*(r)*((180-changeAngle)/360)) ))) {
+    				
+    		leftFrontMotor.set(ControlMode.PercentOutput, percentageLeft/2);
+    		leftMiddleMotor.set(ControlMode.PercentOutput, percentageLeft/2);
+    		leftBackMotor.set(ControlMode.PercentOutput, percentageLeft/2);
+    		rightFrontMotor.set(ControlMode.PercentOutput, percentageRight/2);
+    		rightMiddleMotor.set(ControlMode.PercentOutput, percentageRight/2);
+    		rightBackMotor.set(ControlMode.PercentOutput, percentageRight/2);
+    		}
+    			else if (Math.abs(Robot.navx.getAngle()) >= desiredAngle || encoderToInches(leftBackMotor.getSelectedSensorPosition(0)) > ((2*3.14*(r)*((180-changeAngle)/360)))) {
+    				leftFrontMotor.set(ControlMode.PercentOutput, 0);
+    	    		leftMiddleMotor.set(ControlMode.PercentOutput, 0);
+    	    		leftBackMotor.set(ControlMode.PercentOutput, 0);
+    	    		rightBackMotor.set(ControlMode.PercentOutput, 0);
+    	    		rightMiddleMotor.set(ControlMode.PercentOutput, 0);
+    	    		rightFrontMotor.set(ControlMode.PercentOutput, 0);
+    			}
     		}
     	}
-    	TankDrive(0, 0);
+ 
+    	
+    	
+    	
+    	
     }
 }

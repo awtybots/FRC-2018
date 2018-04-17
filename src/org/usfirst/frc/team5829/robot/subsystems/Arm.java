@@ -1,5 +1,6 @@
 package org.usfirst.frc.team5829.robot.subsystems;
 
+import org.usfirst.frc.team5829.robot.Lidar;
 import org.usfirst.frc.team5829.robot.RobotMap;
 import org.usfirst.frc.team5829.robot.commands.ArmMove;
 
@@ -30,6 +31,7 @@ public class Arm extends Subsystem {
 	public static DoubleSolenoid bikeBreak = new DoubleSolenoid(RobotMap.breakClose, RobotMap.breakOpen);
 	public static DigitalInput bumper = new DigitalInput(RobotMap.bumper);
 	public static DigitalInput limit = new DigitalInput(RobotMap.limit);
+	public static Lidar lidarLift;
 	
     public void initDefaultCommand(){
     	setDefaultCommand(new ArmMove(0, 0));
@@ -92,8 +94,9 @@ public class Arm extends Subsystem {
     		return true;
     }
     
-   /* public void armMoveMotor(int upOrDown) {
-    	leftArm.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
-    }*/
+    public double getLiftHeightInches()
+    {
+    	return lidarLift.getDistanceIn() + 4.5;
+    }
 }
 

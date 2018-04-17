@@ -52,4 +52,7 @@ public class RobotMap {
 	// Sensors
 	public static int limit = 8;
 	public static int bumper = 9;
+	
+	//I2C
+	public static final int i2cLidarAddress = 0x62;
 }

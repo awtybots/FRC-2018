@@ -93,6 +93,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic(){
 		Scheduler.getInstance().run();
+		SmartDashboard.putNumber("Lidar Value", Robot.arm.getLiftHeightInches());
 		SmartDashboard.putNumber("rightEncoder", Robot.driveBase.leftBackMotor.getSelectedSensorPosition(0));
 		SmartDashboard.putNumber("leftEncoder", Robot.driveBase.rightMiddleMotor.getSelectedSensorPosition(0));
 		SmartDashboard.putNumber("NAVX Angle", Robot.navx.getAngle());
