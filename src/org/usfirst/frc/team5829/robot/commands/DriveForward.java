@@ -26,8 +26,8 @@ public class DriveForward extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	DriveTrain.resetEncoder();
-    	DriveTrain.driveForward(value);
+    	//DriveTrain.resetEncoder();
+    	//DriveTrain.driveForward(value);
     }
 
     // Make this return true when this Command no longer needs to run execute()

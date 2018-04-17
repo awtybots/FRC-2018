@@ -4,9 +4,6 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-/**
- *
- */
 public class Electrical extends Subsystem {
     // Just leave this alone for now
 	public void initDefaultCommand() {}

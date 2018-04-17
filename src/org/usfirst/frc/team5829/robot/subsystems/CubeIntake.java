@@ -17,11 +17,11 @@ public class CubeIntake extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	public static DoubleSolenoid intakeMove = new DoubleSolenoid(RobotMap.IntakeOpen, RobotMap.IntakeClose); 
-	public static TalonSRX leftIntakeMotor = new TalonSRX(RobotMap.intakeLeft);
-	public static TalonSRX rightIntakeMotor = new TalonSRX(RobotMap.intakeRight);
+	public static Spark leftIntakeMotor = new Spark(RobotMap.intakeLeft);
+	public static Spark rightIntakeMotor = new Spark(RobotMap.intakeRight);
 	public static Spark intakeLift = new Spark(RobotMap.intakeLift);
 	public static final double intakeSpeed = .65;
-	public static final double liftSpeed = .35;
+	public static final double liftSpeed = .45;
 	
     public void initDefaultCommand() {
     	// This is a useless comment
@@ -31,21 +31,21 @@ public class CubeIntake extends Subsystem {
     
     public static void Intake(double speed){
     	if(Math.abs(speed) > .65) {
-    		leftIntakeMotor.set(ControlMode.PercentOutput,intakeSpeed);
-    		rightIntakeMotor.set(ControlMode.PercentOutput,intakeSpeed);
+    		leftIntakeMotor.set(-intakeSpeed);
+    		rightIntakeMotor.set(-intakeSpeed);
     	}else{
-    		leftIntakeMotor.set(ControlMode.PercentOutput,0);
-    		rightIntakeMotor.set(ControlMode.PercentOutput,0);
+    		leftIntakeMotor.set(0);
+    		rightIntakeMotor.set(0);
     	}
     }
     
     public static void Outtake(double speed){
     	if(Math.abs(speed) > .65) {
-    		leftIntakeMotor.set(ControlMode.PercentOutput,-intakeSpeed);
-    		rightIntakeMotor.set(ControlMode.PercentOutput,-intakeSpeed);
+    		leftIntakeMotor.set(intakeSpeed);
+    		rightIntakeMotor.set(intakeSpeed);
     	}
     }
-    public static void IntakeLifter(int lift) {
+    public static void IntakeLifter(int lift){
     	if(lift == 1)
     		intakeLift.set(liftSpeed);
     	else if(lift == -1)

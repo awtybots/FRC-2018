@@ -5,16 +5,15 @@ import org.usfirst.frc.team5829.robot.subsystems.DriveTrain;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-/**
+/*
  *
  */
 public class RunAuton extends CommandGroup {
+	
+	String gameData;
 
     public RunAuton(int option){
     	
-    	String gameData;
-    	gameData = DriverStation.getInstance().getGameSpecificMessage();
-    	char p = gameData.charAt(0);
     	int o = option; 
         // Add Commands here:
         // e.g. addSequential(new Command1());
@@ -33,52 +32,50 @@ public class RunAuton extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	switch(o){
-    		case 0: DriveForward(p);
+    		case 0: DriveForward();
     				break;
-    		case 1: CenterSwitch(p);
+    		case 1: CenterSwitch();
     				break;
-    		case 2: LeftSwitch(p);
+    		case 2: LeftSwitch();
     				break;
-    		case 3: RightSwitch(p);
+    		case 3: RightSwitch();
     				break;
-    		case 4: LeftScale(p);
+    		case 4: LeftScale();
     				break;
-    		case 5: RightScale(p);
+    		case 5: RightScale();
     				break;
     	}
     }
     
 	
-	public void DriveForward(char p){
+	public void DriveForward(){
 		addSequential(new DriveForward(11000));
 	}
 	
-	public void CenterSwitch(char p){
-		if(p == 'L'){
-			//addSequential(new DriveForward(7600));
+	public void CenterSwitch(){
+		
+		gameData = DriverStation.getInstance().getGameSpecificMessage();
+		if('L' == gameData.charAt(0)){
+			addSequential(new DriveForward(7600));
 			addSequential(new DriveTurn(-2280, 'L'));
-			//addSequential(new DriveForward(19770));
-			//addSequential(new DriveTurn(2640, 'R'));
+			addSequential(new DriveForward(19770));
+			addSequential(new DriveTurn(2640, 'R'));
 		}else{
 			//addSequential(new DriveForward(8670));
 			//addSequential(new DriveTurn(1171, 'R'));
 			//addSequential(new DriveForward(11165));
 		}	
 	}
-	
-	public void LeftSwitch(char p){
+	public void LeftSwitch(){
 		
 	}
-	
-	public void RightSwitch(char p){
+	public void RightSwitch(){
 		
 	}
-	
-	public void LeftScale(char p){
+	public void LeftScale(){
 		
 	}
-	
-	public void RightScale(char spot){
+	public void RightScale(){
 		
 	}
 }

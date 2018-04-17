@@ -26,8 +26,8 @@ public class DriveTurn extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	DriveTrain.resetEncoder();
-    	DriveTrain.driveTurn(value, turn);
+    	//DriveTrain.resetEncoder();
+    	//DriveTrain.driveTurn(value, turn);
     }
 
     // Make this return true when this Command no longer needs to run execute()

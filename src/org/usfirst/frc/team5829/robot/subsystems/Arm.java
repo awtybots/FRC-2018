@@ -22,12 +22,14 @@ public class Arm extends Subsystem {
     // here. Call these from Commands.
 	
 	public static Spark liftMotor1 = new Spark(RobotMap.liftMotor1);
-	public static TalonSRX liftMotor2 = new TalonSRX(RobotMap.liftMotor2);
-	public static TalonSRX liftMotor3 = new TalonSRX(RobotMap.liftMotor3);
-	public static final double armSpeed = 0.75;
+	public static Spark liftMotor2 = new Spark(RobotMap.liftMotor2);
+	public static Spark liftMotor3 = new Spark(RobotMap.liftMotor3);
+	public static Spark liftMotor4 = new Spark(RobotMap.liftMotor4);
+	public static final double armSpeed = 0.50;
 	public static DoubleSolenoid armMove = new DoubleSolenoid(RobotMap.arm_down,RobotMap.arm_up);
 	public static DoubleSolenoid bikeBreak = new DoubleSolenoid(RobotMap.breakClose, RobotMap.breakOpen);
 	public static DigitalInput bumper = new DigitalInput(RobotMap.bumper);
+	public static DigitalInput limit = new DigitalInput(RobotMap.limit);
 	
     public void initDefaultCommand(){
     	setDefaultCommand(new ArmMove(0, 0));
@@ -35,20 +37,43 @@ public class Arm extends Subsystem {
     
     public static void armMoveMotor(int upOrDown) {
     	if(upOrDown == -1){
-    		bikeBreak.set(DoubleSolenoid.Value.kForward);
-    		liftMotor1.set(armSpeed);
-    		liftMotor2.set(ControlMode.PercentOutput, armSpeed);
-    		liftMotor3.set(ControlMode.PercentOutput, armSpeed);
+    		if(bumper.get() == true) {
+    			bikeBreak.set(DoubleSolenoid.Value.kForward);
+    			liftMotor1.set(armSpeed);
+    			liftMotor2.set( -armSpeed);
+    			liftMotor3.set( armSpeed);
+    			liftMotor4.set( -armSpeed);
+    		}
+    		else
+    		{
+    			bikeBreak.set(DoubleSolenoid.Value.kReverse);
+        		liftMotor1.set(0);
+        		liftMotor2.set( 0);
+        		liftMotor3.set( 0);
+        		liftMotor4.set(0);
+    		}
     	}else if(upOrDown == 1){
-    		bikeBreak.set(DoubleSolenoid.Value.kForward);
-    		liftMotor1.set(-armSpeed);
-    		liftMotor2.set(ControlMode.PercentOutput, -armSpeed);
-    		liftMotor3.set(ControlMode.PercentOutput, -armSpeed);
+    		if(limit.get() == true) {
+    			bikeBreak.set(DoubleSolenoid.Value.kForward);
+    			liftMotor1.set(-armSpeed);
+    			liftMotor2.set( armSpeed);
+    			liftMotor3.set( -armSpeed);
+    			liftMotor4.set( armSpeed);
+    		}
+    		else
+    		{
+    			bikeBreak.set(DoubleSolenoid.Value.kReverse);
+        		liftMotor1.set(0);
+        		liftMotor2.set( 0);
+        		liftMotor3.set( 0);
+        		liftMotor4.set( 0);
+    		}
     	}else{
     		bikeBreak.set(DoubleSolenoid.Value.kReverse);
     		liftMotor1.set(0);
-    		liftMotor2.set(ControlMode.PercentOutput, 0);
-    		liftMotor3.set(ControlMode.PercentOutput, 0);    		
+    		liftMotor2.set( 0);
+    		liftMotor3.set( 0); 
+    		liftMotor4.set( 0);
     	}
     }
     public static void armMovePiston(int upOrDown){

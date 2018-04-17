@@ -20,31 +20,36 @@ public class RobotMap {
 	// public static int rightMotor = 2;
 	
 	// Motors
-	public static int leftBackMotor = 5;
-	public static int leftMiddleMotor = 3;
-	public static int leftFrontMotor = 6;
-	public static int rightBackMotor = 2;
-	public static int rightMiddleMotor = 9;
-	public static int rightFrontMotor = 4;
-	public static int liftMotor1 = 0;
-	public static int liftMotor2 = 10;
-	public static int liftMotor3 = 7;
-	public static int intakeLeft = 8;
-	public static int intakeRight = 12;
-	public static int intakeLift = 1;
+	public static int leftBackMotor = 2;
+	public static int leftMiddleMotor = 12;
+	public static int leftFrontMotor = 7;
+
+	public static int rightBackMotor = 0;
+	public static int rightMiddleMotor = 10;
+	public static int rightFrontMotor = 3;
+
+	public static int liftMotor1 = 3;
+	public static int liftMotor2 = 4;
+	public static int liftMotor3 = 5;
+	public static int liftMotor4 = 6;
+	
+	public static int intakeLeft = 2;
+	public static int intakeRight = 1;
+	public static int intakeLift = 0;
+	
 	
 	// Solenoids
 	public static int arm_up = 6;
 	public static int arm_down = 7;
+	
 	public static int IntakeOpen = 4;
 	public static int IntakeClose = 5;
+	
 	public static int breakOpen = 2;
 	public static int breakClose = 3;
 	
+	
 	// Sensors
-	public static final class DIO{
-		public static int LIDAR_PORT = 0;
-	}
-
+	public static int limit = 8;
 	public static int bumper = 9;
 }

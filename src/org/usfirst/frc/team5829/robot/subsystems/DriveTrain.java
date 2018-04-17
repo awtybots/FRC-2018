@@ -40,10 +40,10 @@ public class DriveTrain extends Subsystem {
         // Set the default command for a subsystem here.
     	setDefaultCommand(new SplitArcade());
     	rightMiddleMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,0 ,10);
-    	leftMiddleMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
-    	// rightMiddleMotor.setSensorPhase(true);
-    	leftMiddleMotor.setSensorPhase(true);
-    	leftMiddleMotor.setSelectedSensorPosition(0, 0, 10);
+    	leftBackMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
+    	rightMiddleMotor.setSensorPhase(false);
+    	leftBackMotor.setSensorPhase(true);
+    	//leftMiddleMotor.setSelectedSensorPosition(0, 0, 10);
     }
     
     public void setRamped(boolean a) {
@@ -83,10 +83,9 @@ public class DriveTrain extends Subsystem {
     	rightMiddleMotor.set(ControlMode.PercentOutput,rightSpeed);
     	rightFrontMotor.set(ControlMode.PercentOutput,rightSpeed);
     }
-    
     public static void SplitArcade(double straight, double rotate) {
-    	double value = leftMiddleMotor.getSelectedSensorPosition(0);
-    	System.out.println(value);
+    	//double value = leftMiddleMotor.getSelectedSensorPosition(0);
+    	//System.out.println(value);
     	if(straight - prevStraight > CONSTANT_RAMP_LIMIT)
     	{
     		straight = prevStraight + CONSTANT_RAMP_LIMIT;
@@ -107,12 +106,12 @@ public class DriveTrain extends Subsystem {
     	prevStraight = straight;
     	prevRotate = rotate;
     	
-    	leftFrontMotor.set(ControlMode.PercentOutput,straight + rotate);
-    	leftMiddleMotor.set(ControlMode.PercentOutput,straight + rotate);
-    	leftBackMotor.set(ControlMode.PercentOutput,straight + rotate);
-    	rightFrontMotor.set(ControlMode.PercentOutput,straight - rotate);
-    	rightMiddleMotor.set(ControlMode.PercentOutput,straight - rotate);
-    	rightBackMotor.set(ControlMode.PercentOutput,straight - rotate);
+    	leftFrontMotor.set(ControlMode.PercentOutput,(straight + rotate));
+    	leftMiddleMotor.set(ControlMode.PercentOutput,(straight + rotate));
+    	leftBackMotor.set(ControlMode.PercentOutput,(straight + rotate));
+    	rightFrontMotor.set(ControlMode.PercentOutput,-(straight - rotate));
+    	rightMiddleMotor.set(ControlMode.PercentOutput,-(straight - rotate));
+    	rightBackMotor.set(ControlMode.PercentOutput,-(straight - rotate));
     }
     public double encoderToInches(double ticks){
     	double diameter = 4;
@@ -124,38 +123,38 @@ public class DriveTrain extends Subsystem {
     
     public static void resetEncoder() {
     	rightMiddleMotor.setSelectedSensorPosition(0 ,0, 10);
-    	leftMiddleMotor.setSelectedSensorPosition(0, 0, 10);
+    	leftBackMotor.setSelectedSensorPosition(0, 0, 10);
     	
     }
     
-    public static void driveForward(double distance)
-    {    	
-    	double right = rightMiddleMotor.getSelectedSensorPosition(0);
-    	double left = leftMiddleMotor.getSelectedSensorPosition(0);
-    	while (right < distance || left < distance){
-    		if(right > distance || left > distance){
-    			break;
-    		}
-    		right = rightMiddleMotor.getSelectedSensorPosition(0);
-        	left = leftMiddleMotor.getSelectedSensorPosition(0);
-        	System.out.println(left+" "+right);
-    		TankDrive(.2, -.2);
-    	}
-    	
-    	TankDrive(0, 0);
-    }
-    
+//    public static void driveForward(double distance){    	
+//    	double right = rightMiddleMotor.getSelectedSensorPosition(0);
+//    	double left = leftMiddleMotor.getSelectedSensorPosition(0);
+//    	while (right < distance || left < distance){
+//    		if(right > distance || left > distance){
+//    			break;
+//    		}
+//    		right = rightMiddleMotor.getSelectedSensorPosition(0);
+//        	left = leftMiddleMotor.getSelectedSensorPosition(0);
+//        	System.out.println(left+" "+right);
+//    		TankDrive(.2, -.2);
+//    	}
+//    	
+//    	TankDrive(0, 0);
+//    }
     public static void driveTurn(double distance, char turn){
     	double right = rightMiddleMotor.getSelectedSensorPosition(0);
-    	double left = leftMiddleMotor.getSelectedSensorPosition(0);
+    	double left = leftBackMotor.getSelectedSensorPosition(0);
     	
     	while (right < distance || left < distance){
     		if(right > distance || left > distance){
     			break;
     		}
+
     		right = rightMiddleMotor.getSelectedSensorPosition(0);
         	left = leftMiddleMotor.getSelectedSensorPosition(0);
     		System.out.println(left+" "+right);
+
     		if(turn == 'L'){
     			TankDrive(-.2, -.2);
     		}else if(turn == 'R'){

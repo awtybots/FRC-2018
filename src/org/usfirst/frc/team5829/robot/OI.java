@@ -100,11 +100,11 @@ public class OI {
 		//first controller
 		
 		//Move Arm
-		btnL1.whenPressed(new ArmMove(1, 0));
-		btnL1.whenReleased(new ArmMove(0, 0));
+		//btnL1.whenPressed(new ArmMove(1, 0));
+		//btnL1.whenReleased(new ArmMove(0, 0));
 		
-		btnR1.whenPressed(new ArmMove(-1, 0));
-		btnR1.whenReleased(new ArmMove(0, 0));
+		//btnR1.whenPressed(new ArmMove(-1, 0));
+		//btnR1.whenReleased(new ArmMove(0, 0));
 		
 		//Move Intake
 		btnB.toggleWhenPressed(new ArmMove(0, 1));
@@ -116,11 +116,11 @@ public class OI {
 		//second controller
 		
 		//Move Arm
-		btnL2.whenPressed(new IntakeCube(1));
-		btnL2.whenReleased(new IntakeCube(0));
+		btnL1.whenPressed(new IntakeCube(1));
+		btnL1.whenReleased(new IntakeCube(0));
 		
-		btnR2.whenPressed(new IntakeCube(-1));
-		btnR2.whenReleased(new IntakeCube(0));
+		btnR1.whenPressed(new IntakeCube(-1));
+		btnR1.whenReleased(new IntakeCube(0));
 		
 		//Move Intake
 		btnB2.toggleWhenPressed(new ArmMove(0, 1));
