@@ -1,5 +1,6 @@
 package org.usfirst.frc.team5829.robot.commands;
 
+import org.usfirst.frc.team5829.robot.Robot;
 import org.usfirst.frc.team5829.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -31,6 +32,7 @@ public class RunAuton extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
+    	System.out.println(o);
     	switch(o){
     		case 0: DriveForward();
     				break;
@@ -49,17 +51,19 @@ public class RunAuton extends CommandGroup {
     
 	
 	public void DriveForward(){
-		addSequential(new DriveForward(11000));
+		System.out.println("called from runnauton");
+		addSequential(new DriveForward(5));
+//		addSequential(new DriveTurn(45));
 	}
 	
 	public void CenterSwitch(){
-		
+		System.out.println("center switch");
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
 		if('L' == gameData.charAt(0)){
 			addSequential(new DriveForward(7600));
-			addSequential(new DriveTurn(-2280, 'L'));
+			//addSequential(new DriveTurn(-2280, 'L'));
 			addSequential(new DriveForward(19770));
-			addSequential(new DriveTurn(2640, 'R'));
+			//addSequential(new DriveTurn(2640, 'R'));
 		}else{
 			//addSequential(new DriveForward(8670));
 			//addSequential(new DriveTurn(1171, 'R'));

@@ -20,7 +20,7 @@ public class CubeIntake extends Subsystem {
 	public static Spark leftIntakeMotor = new Spark(RobotMap.intakeLeft);
 	public static Spark rightIntakeMotor = new Spark(RobotMap.intakeRight);
 	public static Spark intakeLift = new Spark(RobotMap.intakeLift);
-	public static final double intakeSpeed = .65;
+	public static final double intakeSpeed = .85;
 	public static final double liftSpeed = .45;
 	
     public void initDefaultCommand() {

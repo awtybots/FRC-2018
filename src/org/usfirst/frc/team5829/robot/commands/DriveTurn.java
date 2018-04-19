@@ -11,23 +11,23 @@ import edu.wpi.first.wpilibj.command.Command;
 public class DriveTurn extends Command {
 	
 	public double value;
-	public char turn;
 
-    public DriveTurn(double distance, char direction) {
+    public DriveTurn(double distance) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	turn = direction;
     	value = distance;
     	requires(Robot.driveBase);
     }
 
     // Called just before this Command runs the first time
-    protected void initialize(){}
+    protected void initialize(){
+    	DriveTrain.resetEncoder();
+    	Robot.navx.reset();
+    }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	//DriveTrain.resetEncoder();
-    	//DriveTrain.driveTurn(value, turn);
+    	DriveTrain.turnDegrees(value);
     }
 
     // Make this return true when this Command no longer needs to run execute()

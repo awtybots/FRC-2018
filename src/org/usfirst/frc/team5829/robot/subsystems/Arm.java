@@ -28,10 +28,10 @@ public class Arm extends Subsystem {
 	public static Spark liftMotor4 = new Spark(RobotMap.liftMotor4);
 	public static final double armSpeed = 0.50;
 	public static DoubleSolenoid armMove = new DoubleSolenoid(RobotMap.arm_down,RobotMap.arm_up);
-	public static DoubleSolenoid bikeBreak = new DoubleSolenoid(RobotMap.breakClose, RobotMap.breakOpen);
+//	public static DoubleSolenoid bikeBreak = new DoubleSolenoid(RobotMap.breakClose, RobotMap.breakOpen);
 	public static DigitalInput bumper = new DigitalInput(RobotMap.bumper);
 	public static DigitalInput limit = new DigitalInput(RobotMap.limit);
-	public static Lidar lidarLift;
+	//public static Lidar lidarLift;
 	
     public void initDefaultCommand(){
     	setDefaultCommand(new ArmMove(0, 0));
@@ -40,7 +40,7 @@ public class Arm extends Subsystem {
     public static void armMoveMotor(int upOrDown) {
     	if(upOrDown == -1){
     		if(bumper.get() == true) {
-    			bikeBreak.set(DoubleSolenoid.Value.kForward);
+//    			bikeBreak.set(DoubleSolenoid.Value.kForward);
     			liftMotor1.set(armSpeed);
     			liftMotor2.set( -armSpeed);
     			liftMotor3.set( armSpeed);
@@ -48,7 +48,7 @@ public class Arm extends Subsystem {
     		}
     		else
     		{
-    			bikeBreak.set(DoubleSolenoid.Value.kReverse);
+//    			bikeBreak.set(DoubleSolenoid.Value.kReverse);
         		liftMotor1.set(0);
         		liftMotor2.set( 0);
         		liftMotor3.set( 0);
@@ -56,7 +56,7 @@ public class Arm extends Subsystem {
     		}
     	}else if(upOrDown == 1){
     		if(limit.get() == true) {
-    			bikeBreak.set(DoubleSolenoid.Value.kForward);
+//    			bikeBreak.set(DoubleSolenoid.Value.kForward);
     			liftMotor1.set(-armSpeed);
     			liftMotor2.set( armSpeed);
     			liftMotor3.set( -armSpeed);
@@ -64,14 +64,14 @@ public class Arm extends Subsystem {
     		}
     		else
     		{
-    			bikeBreak.set(DoubleSolenoid.Value.kReverse);
+//    			bikeBreak.set(DoubleSolenoid.Value.kReverse);
         		liftMotor1.set(0);
         		liftMotor2.set( 0);
         		liftMotor3.set( 0);
         		liftMotor4.set( 0);
     		}
     	}else{
-    		bikeBreak.set(DoubleSolenoid.Value.kReverse);
+//    		bikeBreak.set(DoubleSolenoid.Value.kReverse);
     		liftMotor1.set(0);
     		liftMotor2.set( 0);
     		liftMotor3.set( 0); 
@@ -85,8 +85,7 @@ public class Arm extends Subsystem {
     		armMove.set(DoubleSolenoid.Value.kReverse);
     }
     
-    public static boolean getBumperValue()
-    {
+    public static boolean getBumperValue(){
     	if(bumper.get() == false) {
     		return false;
     	}
@@ -94,9 +93,9 @@ public class Arm extends Subsystem {
     		return true;
     }
     
-    public double getLiftHeightInches()
+   /* public double getLiftHeightInches()
     {
     	return lidarLift.getDistanceIn() + 4.5;
-    }
+    }*/
 }
 
