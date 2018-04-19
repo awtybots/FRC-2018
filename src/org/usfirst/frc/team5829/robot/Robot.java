@@ -66,8 +66,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit(){
 		
-		autonomousCommand = new DriveForward(10);
-		autonomousCommand.start();
+//		autonomousCommand = new DriveForward(10);
+//		autonomousCommand.start();
 		Robot.navx.reset();
     	Robot.navx.resetDisplacement();
 		m_autoInitTime = Timer.getFPGATimestamp();
@@ -76,7 +76,7 @@ public class Robot extends TimedRobot {
 	public void autonomousPeriodic(){
 		Scheduler.getInstance().run();
 		if(Timer.getFPGATimestamp()-m_autoInitTime <= 2){
-			Robot.driveBase.TankDrive(-.5, -.5);
+			Robot.driveBase.TankDrive(.5, -.5);
 		}else{
 			Robot.driveBase.TankDrive(0, 0);
 		}
