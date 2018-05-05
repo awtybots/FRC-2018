@@ -23,7 +23,7 @@ public class ArmMove extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-//    	Arm.armMoveMotor(armSpeed);
+    	Arm.armMoveMotor(armSpeed);
     	Arm.armMovePiston(armPot);
     }
 

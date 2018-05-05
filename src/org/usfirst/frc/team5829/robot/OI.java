@@ -100,11 +100,11 @@ public class OI {
 		//first controller
 		
 		//Move Arm
-		btnL1.whenPressed(new ArmMove(1, 0));
-		btnL1.whenReleased(new ArmMove(0, 0));
+		btnL1.whenPressed(new ArmMove(1, 1));
+		btnL1.whenReleased(new ArmMove(0, 1));
 		
-		btnR1.whenPressed(new ArmMove(-1, 0));
-		btnR1.whenReleased(new ArmMove(0, 0));
+		btnR1.whenPressed(new ArmMove(-1, 1));
+		btnR1.whenReleased(new ArmMove(0, 1));
 		
 		//Move Intake
 		btnB.toggleWhenPressed(new ArmMove(0, 1));

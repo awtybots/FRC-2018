@@ -45,13 +45,13 @@ public class RobotMap {
 	public static int IntakeOpen = 4;
 	public static int IntakeClose = 5;
 	
-//	public static int breakOpen = 2;
-//	public static int breakClose = 3;
+	public static int breakOpen = 6;
+	public static int breakClose = 7;
 	
 	
 	// Sensors
 	public static int limit = 8;
-	public static int bumper = 9;
+	public static int bumper = 0;
 	
 	//I2C
 	public static final int i2cLidarAddress = 0x62;
