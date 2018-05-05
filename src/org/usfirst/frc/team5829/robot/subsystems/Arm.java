@@ -27,7 +27,7 @@ public class Arm extends Subsystem {
 	public static Spark liftMotor3 = new Spark(RobotMap.liftMotor3);
 	public static Spark liftMotor4 = new Spark(RobotMap.liftMotor4);
 	public static final double armUpSpeed = 0.65;
-	public static final double armDownSpeed = .40;
+	public static final double armDownSpeed = .30;
 	public static DoubleSolenoid armMove = new DoubleSolenoid(RobotMap.arm_down,RobotMap.arm_up);
 	public static DoubleSolenoid bikeBreak = new DoubleSolenoid(RobotMap.breakClose, RobotMap.breakOpen);
 	public static DigitalInput bumper = new DigitalInput(RobotMap.bumper);
