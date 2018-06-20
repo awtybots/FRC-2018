@@ -88,7 +88,7 @@ public class Robot extends TimedRobot {
 		if (autonomousCommand != null){
 			autonomousCommand.cancel();
 		}
-		Robot.driveBase.resetEncoder();
+		//Robot.driveBase.resetEncoder();
 	}
 	@Override
 	public void teleopPeriodic(){
