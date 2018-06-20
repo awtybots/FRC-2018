@@ -36,11 +36,11 @@ public class RunAuton extends CommandGroup {
     	switch(o){
     		case 0: DriveForward();
     				break;
-    		case 1: CenterSwitch();
+    		case 1: StartLeft();
     				break;
-    		case 2: LeftSwitch();
+    		case 2: StartCenter();
     				break;
-    		case 3: RightSwitch();
+    		case 3: StartRight();
     				break;
     		case 4: LeftScale();
     				break;
@@ -53,10 +53,9 @@ public class RunAuton extends CommandGroup {
 	public void DriveForward(){
 		System.out.println("called from runnauton");
 		addSequential(new DriveForward(5));
-//		addSequential(new DriveTurn(45));
 	}
 	
-	public void CenterSwitch(){
+	public void StartLeft(){
 		System.out.println("center switch");
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
 		if('L' == gameData.charAt(0)){
@@ -70,10 +69,10 @@ public class RunAuton extends CommandGroup {
 			//addSequential(new DriveForward(11165));
 		}	
 	}
-	public void LeftSwitch(){
+	public void StartCenter(){
 		
 	}
-	public void RightSwitch(){
+	public void StartRight(){
 		
 	}
 	public void LeftScale(){

@@ -1,5 +1,7 @@
 package org.usfirst.frc.team5829.robot.subsystems;
 
+import java.util.concurrent.locks.ReentrantLock;
+
 import org.usfirst.frc.team5829.robot.Robot;
 import org.usfirst.frc.team5829.robot.RobotMap;
 import org.usfirst.frc.team5829.robot.commands.SplitArcade;
@@ -7,6 +9,7 @@ import org.usfirst.frc.team5829.robot.commands.SplitArcade;
 import com.ctre.CANTalon;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.Spark;
@@ -28,6 +31,9 @@ public class DriveTrain extends Subsystem {
 	public static TalonSRX rightBackMotor = new TalonSRX(RobotMap.rightBackMotor);
 	public static TalonSRX rightMiddleMotor = new TalonSRX(RobotMap.rightMiddleMotor);
 	public static TalonSRX rightFrontMotor = new TalonSRX(RobotMap.rightFrontMotor);
+	
+	private boolean mPrevBrakeModeVal;
+	private static ReentrantLock _subsystemMutex = new ReentrantLock();
 	
 	public static final double CONSTANT_RAMP_LIMIT = 0.05;
 	public static double prevStraight = 0;
@@ -117,6 +123,20 @@ public class DriveTrain extends Subsystem {
     	rightFrontMotor.set(ControlMode.PercentOutput,(straight - rotate));
     	rightMiddleMotor.set(ControlMode.PercentOutput,(straight - rotate));
     	rightBackMotor.set(ControlMode.PercentOutput,(straight - rotate));
+    }
+    
+    public void setBreakMode(boolean brakeMode) {
+    	if(mPrevBrakeModeVal != brakeMode) {
+    		_subsystemMutex.lock();
+    		leftFrontMotor.setNeutralMode(brakeMode ? NeutralMode.Brake : NeutralMode.Coast);
+        	leftMiddleMotor.setNeutralMode(brakeMode ? NeutralMode.Brake : NeutralMode.Coast);
+        	leftBackMotor.setNeutralMode(brakeMode ? NeutralMode.Brake : NeutralMode.Coast);
+        	rightFrontMotor.setNeutralMode(brakeMode ? NeutralMode.Brake : NeutralMode.Coast);
+        	rightMiddleMotor.setNeutralMode(brakeMode ? NeutralMode.Brake : NeutralMode.Coast);
+        	rightBackMotor.setNeutralMode(brakeMode ? NeutralMode.Brake : NeutralMode.Coast);
+        	mPrevBrakeModeVal = brakeMode;
+        	_subsystemMutex.unlock();
+    	}
     }
     
     public static double encoderToInches(double ticks){

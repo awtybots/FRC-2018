@@ -22,7 +22,7 @@ public class Arm extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	
-	public static Spark liftMotor1 = new Spark(RobotMap.liftMotor1);
+	public static TalonSRX liftMotor1 = new TalonSRX(RobotMap.liftMotor1);
 	public static Spark liftMotor2 = new Spark(RobotMap.liftMotor2);
 	public static Spark liftMotor3 = new Spark(RobotMap.liftMotor3);
 	public static Spark liftMotor4 = new Spark(RobotMap.liftMotor4);
@@ -41,19 +41,19 @@ public class Arm extends Subsystem {
     public static void armMoveMotor(int upOrDown) {
     	if(upOrDown == -1) {
     			bikeBreak.set(DoubleSolenoid.Value.kForward);
-    			liftMotor1.set(armDownSpeed);
+    			liftMotor1.set(ControlMode.PercentOutput, armDownSpeed);
     			liftMotor2.set( -armDownSpeed);
     			liftMotor3.set( armDownSpeed);
     			liftMotor4.set( -armDownSpeed);
     	}else if(upOrDown == 1){
     			bikeBreak.set(DoubleSolenoid.Value.kForward);
-    			liftMotor1.set(-armUpSpeed);
+    			liftMotor1.set(ControlMode.PercentOutput, armDownSpeed);
     			liftMotor2.set( armUpSpeed);
     			liftMotor3.set( -armUpSpeed);
     			liftMotor4.set( armUpSpeed);
     	}else{
     		bikeBreak.set(DoubleSolenoid.Value.kReverse);
-    		liftMotor1.set(0);
+    		liftMotor1.set(ControlMode.PercentOutput, 0);
     		liftMotor2.set(0);
     		liftMotor3.set(0); 
     		liftMotor4.set(0);
@@ -72,10 +72,10 @@ public class Arm extends Subsystem {
     	}
     	else
     		return true;
-    }/*
-     public double getLiftHeightInches()
-    {
-    	return lidarLift.getDistanceIn() + 4.5;
-    }*/
+    }
+    
+    public static void resetEncoder() {
+    	liftMotor1.setSelectedSensorPosition(0 ,0, 10);	
+    }
 }
 
