@@ -34,7 +34,7 @@ public class IntakeCube extends Command {
     	}
     	CubeIntake.Intake(intakeSpeed);
     	CubeIntake.Outtake(outtakeSpeed);
-    	CubeIntake.IntakeLifter(intakeMove);
+    	CubeIntake.IntakeMove(intakeMove);
     }
 
     // Make this return true when this Command no longer needs to run execute()

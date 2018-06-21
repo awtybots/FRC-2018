@@ -53,14 +53,5 @@ public class CubeIntake extends Subsystem {
     		intakeMove.set(DoubleSolenoid.Value.kReverse);
     	
     }
-    public static void IntakeLifter(int lift){
-    	if(lift == 1)
-    		intakeLift.set(liftSpeed);
-    	else if(lift == -1)
-    		intakeLift.set(-liftSpeed);
-    	else
-    		intakeLift.set(.2);
-    		
-    }
 }
 
