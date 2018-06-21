@@ -28,6 +28,7 @@ public class Arm extends Subsystem {
 	public static Spark liftMotor4 = new Spark(RobotMap.liftMotor4);
 	public static final double armUpSpeed = 0.65;
 	public static final double armDownSpeed = .30;
+	public static int currentPos = 0;
 	public static DoubleSolenoid armMove = new DoubleSolenoid(RobotMap.arm_down,RobotMap.arm_up);
 	public static DoubleSolenoid bikeBreak = new DoubleSolenoid(RobotMap.breakClose, RobotMap.breakOpen);
 	public static DigitalInput bumper = new DigitalInput(RobotMap.bumper);
@@ -59,6 +60,31 @@ public class Arm extends Subsystem {
     		liftMotor4.set(0);
     	}
     }
+    
+    public static void moveArmPosition(int position) {
+    	if(currentPos > position) {
+    		bikeBreak.set(DoubleSolenoid.Value.kForward);
+			liftMotor1.set(ControlMode.PercentOutput, armDownSpeed);
+			liftMotor2.set( -armDownSpeed);
+			liftMotor3.set( armDownSpeed);
+			liftMotor4.set( -armDownSpeed);
+    	}
+    	else if(currentPos < position) {
+    		bikeBreak.set(DoubleSolenoid.Value.kForward);
+			liftMotor1.set(ControlMode.PercentOutput, armUpSpeed);
+			liftMotor2.set( armUpSpeed);
+			liftMotor3.set( -armUpSpeed);
+			liftMotor4.set( armUpSpeed);
+    	}
+    	else {
+    		bikeBreak.set(DoubleSolenoid.Value.kReverse);
+    		liftMotor1.set(ControlMode.PercentOutput, 0);
+    		liftMotor2.set(0);
+    		liftMotor3.set(0); 
+    		liftMotor4.set(0);
+    	}
+    }
+    
     public static void armMovePiston(int upOrDown){
     	if(upOrDown == 0)
     		armMove.set(DoubleSolenoid.Value.kForward);

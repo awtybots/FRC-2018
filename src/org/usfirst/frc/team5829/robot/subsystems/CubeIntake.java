@@ -45,6 +45,14 @@ public class CubeIntake extends Subsystem {
     		rightIntakeMotor.set(intakeSpeed);
     	}
     }
+    
+    public static void IntakeMove(int openClose) {
+    	if(openClose == 1)
+    		intakeMove.set(DoubleSolenoid.Value.kForward);
+    	if(openClose == -1)
+    		intakeMove.set(DoubleSolenoid.Value.kReverse);
+    	
+    }
     public static void IntakeLifter(int lift){
     	if(lift == 1)
     		intakeLift.set(liftSpeed);
