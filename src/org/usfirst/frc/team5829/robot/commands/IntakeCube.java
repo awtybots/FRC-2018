@@ -17,15 +17,15 @@ public class IntakeCube extends Command {
         requires(Robot.intake);
     }
 
-    // Called just before this Command runs the first time
+    // Called just before this Command runs thefirst time
     protected void initialize(){}
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	intakeSpeed = Robot.oi.xbox2.getRawAxis(2);
-    	intakeSpeed = Robot.oi.xbox.getRawAxis(2);
-    	outtakeSpeed = Robot.oi.xbox2.getRawAxis(3);
-    	outtakeSpeed = Robot.oi.xbox.getRawAxis(3);
+    	intakeSpeed = Robot.oi.xbox2.getRawAxis(3);
+    	intakeSpeed = Robot.oi.xbox.getRawAxis(3);
+    	outtakeSpeed = Robot.oi.xbox2.getRawAxis(2);
+    	outtakeSpeed = Robot.oi.xbox.getRawAxis(2);
     	
     	if (Math.abs(intakeSpeed) < .5) {
     		intakeSpeed = 0;

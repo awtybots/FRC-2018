@@ -3,6 +3,7 @@ package org.usfirst.frc.team5829.robot.commands;
 import org.usfirst.frc.team5829.robot.Robot;
 import org.usfirst.frc.team5829.robot.subsystems.DriveTrain;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -11,6 +12,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class DriveTurn extends Command {
 	
 	public double value;
+	public boolean complete = false;
 
     public DriveTurn(double distance) {
         // Use requires() here to declare subsystem dependencies
@@ -27,12 +29,13 @@ public class DriveTurn extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	DriveTrain.turnDegrees(value);
+    	System.out.println("DriveTurn");
+    	complete = DriveTrain.turnDegrees(value);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return complete;
     }
 
     // Called once after isFinished returns true

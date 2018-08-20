@@ -8,6 +8,7 @@
 package org.usfirst.frc.team5829.robot;
 
 import org.usfirst.frc.team5829.robot.commands.ArmMove;
+import org.usfirst.frc.team5829.robot.commands.ArmSetMove;
 import org.usfirst.frc.team5829.robot.commands.IntakeCube;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -43,15 +44,15 @@ public class OI {
 	Button btnW = new JoystickButton(xbox, 9);
 	
 	//Controller 2
-	Button btnA2 = new JoystickButton(xbox2, 1);
-	Button btnB2 = new JoystickButton(xbox2, 2);
-	Button btnX2 = new JoystickButton(xbox2, 3);
-	Button btnY2 = new JoystickButton(xbox2, 4);
-	Button btnL2 = new JoystickButton(xbox2, 5);
-	Button btnR2 = new JoystickButton(xbox2, 6);
-	Button btnM2 = new JoystickButton(xbox2, 7);
-	Button btnS2 = new JoystickButton(xbox2, 8);
-	Button btnW2 = new JoystickButton(xbox2, 9);
+	Button btnA2 = new JoystickButton(xbox2, 1); // A button
+	Button btnB2 = new JoystickButton(xbox2, 2); // B button
+	Button btnX2 = new JoystickButton(xbox2, 3); // X button
+	Button btnY2 = new JoystickButton(xbox2, 4); // Y button
+	Button btnL2 = new JoystickButton(xbox2, 5); // Left Bumper?
+	Button btnR2 = new JoystickButton(xbox2, 6); // Right Bumper?
+	Button btnM2 = new JoystickButton(xbox2, 7); // what is this
+	Button btnS2 = new JoystickButton(xbox2, 8); // what is this
+	Button btnW2 = new JoystickButton(xbox2, 9); // what is this
 	
 	public double getRawAnalogStickALX() {
 		return xbox.getRawAxis(0);
@@ -100,11 +101,11 @@ public class OI {
 		//first controller
 		
 		//Move Arm
-		btnL1.whenPressed(new ArmMove(1, 1));
-		btnL1.whenReleased(new ArmMove(0, 1));
+		btnL1.whenPressed(new ArmMove(1, 0));
+		btnL1.whenReleased(new ArmMove(0, 0));
 		
-		btnR1.whenPressed(new ArmMove(-1, 1));
-		btnR1.whenReleased(new ArmMove(0, 1));
+		btnR1.whenPressed(new ArmMove(-1, 0));
+		btnR1.whenReleased(new ArmMove(0, 0));
 		
 		//Move Intake
 		btnB.toggleWhenPressed(new ArmMove(0, 1));
@@ -116,16 +117,24 @@ public class OI {
 		//second controller
 		
 		//Move Arm
-//		btnL1.whenPressed(new IntakeCube(1));
-//		btnL1.whenReleased(new IntakeCube(0));
-//		
-//		btnR1.whenPressed(new IntakeCube(-1));
-//		btnR1.whenReleased(new IntakeCube(0));
+		
+		//Switch
+		btnX2.whenPressed(new ArmSetMove(11895));
+		
+		//Scale Level
+		btnY2.whenPressed(new ArmSetMove(41895));
+		
+		//Max Height
+		btnB2.whenPressed(new ArmSetMove(51270));
+		
+		//Set to zero
+		btnA2.whenPressed(new ArmSetMove(100));
+		
 		
 		//Move Intake
-		btnB2.toggleWhenPressed(new ArmMove(0, 1));
+		btnL2.toggleWhenPressed(new ArmMove(0, 1));
 		
 		//Move Intake Arms
-		btnY2.toggleWhenPressed(new IntakeCube(1));
+		btnR2.toggleWhenPressed(new IntakeCube(1));
 	}
 }

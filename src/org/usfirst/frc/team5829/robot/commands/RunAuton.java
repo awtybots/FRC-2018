@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5829.robot.commands;
 
 import org.usfirst.frc.team5829.robot.Robot;
+import org.usfirst.frc.team5829.robot.subsystems.CubeIntake;
 import org.usfirst.frc.team5829.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -52,22 +53,26 @@ public class RunAuton extends CommandGroup {
 	
 	public void DriveForward(){
 		System.out.println("called from runnauton");
-		addSequential(new DriveForward(5));
+		addSequential(new DriveForward(65));
 	}
 	
 	public void StartLeft(){
 		System.out.println("center switch");
-		gameData = DriverStation.getInstance().getGameSpecificMessage();
-		if('L' == gameData.charAt(0)){
-			addSequential(new DriveForward(7600));
-			//addSequential(new DriveTurn(-2280, 'L'));
-			addSequential(new DriveForward(19770));
-			//addSequential(new DriveTurn(2640, 'R'));
-		}else{
+//		gameData = Robot.getGameData();
+//		if('L' == gameData.charAt(0)){
+//			addSequential(new DriveForward(20)); // drive to pile of cubes
+//			addSequential(new DriveTurn(-45)); // turn away from pile of cubes
+//			addSequential(new DriveForward(50)); // drive away from cubes
+//			addSequential(new DriveTurn(45)); // turn to face switch
+//			addSequential(new ArmSetMove(11895)); // move arm to switch height
+//			addSequential(new DriveForward(30)); // drive towards switch to score
+//			addSequential(new IntakeCube(1));
+//		}else{
 			//addSequential(new DriveForward(8670));
-			//addSequential(new DriveTurn(1171, 'R'));
+			//addSequential(new DriveTurn(45));
 			//addSequential(new DriveForward(11165));
-		}	
+			//addSequential(new DriveTurn(-45));
+//		}
 	}
 	public void StartCenter(){
 		

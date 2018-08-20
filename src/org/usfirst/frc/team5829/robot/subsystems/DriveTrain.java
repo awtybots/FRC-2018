@@ -35,7 +35,7 @@ public class DriveTrain extends Subsystem {
 	private boolean mPrevBrakeModeVal;
 	private static ReentrantLock _subsystemMutex = new ReentrantLock();
 	
-	public static final double CONSTANT_RAMP_LIMIT = 0.05;
+	public static final double CONSTANT_RAMP_LIMIT = 0.1;
 	public static double prevStraight = 0;
 	public static double prevRotate = 0;
 	public static double prevLeft = 0;
@@ -52,9 +52,9 @@ public class DriveTrain extends Subsystem {
         // Set the default command for a subsystem here.
     	setDefaultCommand(new SplitArcade());
     	rightMiddleMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,0 ,10);
-    	leftBackMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
+    	leftMiddleMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
     	rightMiddleMotor.setSensorPhase(false);
-    	leftBackMotor.setSensorPhase(false);
+    	leftMiddleMotor.setSensorPhase(true);
     }
     
     public void setRamped(boolean a) {
@@ -97,7 +97,7 @@ public class DriveTrain extends Subsystem {
     public static void SplitArcade(double straight, double rotate) {
     	//double value = leftMiddleMotor.getSelectedSensorPosition(0);
     	//System.out.println(value);
-    	if(straight - prevStraight > CONSTANT_RAMP_LIMIT)
+    	/*if(straight - prevStraight > CONSTANT_RAMP_LIMIT)
     	{
     		straight = prevStraight + CONSTANT_RAMP_LIMIT;
     	}
@@ -115,7 +115,7 @@ public class DriveTrain extends Subsystem {
     	}
     	
     	prevStraight = straight;
-    	prevRotate = rotate;
+    	prevRotate = rotate;*/
     	
     	leftFrontMotor.set(ControlMode.PercentOutput,(straight + rotate));
     	leftMiddleMotor.set(ControlMode.PercentOutput,(straight + rotate));
@@ -149,13 +149,13 @@ public class DriveTrain extends Subsystem {
     
     public static void resetEncoder() {
     	rightMiddleMotor.setSelectedSensorPosition(0 ,0, 10);
-    	leftBackMotor.setSelectedSensorPosition(0, 0, 10);
+    	leftMiddleMotor.setSelectedSensorPosition(0, 0, 10);
     	
     }
     
     //turn drive
     public static boolean turnDegrees(double dg) {
-    	Robot.navx.reset();
+    	System.out.println("Drivetrain.turnDegrees");
     	double yaw = Robot.navx.getYaw();
     	double angle = Robot.navx.getAngle();
     	;
@@ -166,26 +166,26 @@ public class DriveTrain extends Subsystem {
     	SmartDashboard.putNumber("angle value", angle);
     	
     	
-    	double motorSpeed = .2;
+    	double motorSpeed = .40;
     	//double motorSpeed = ((difference/dg));
     	if (dg > 0) {
     	if (angle < (dg-5)   ) {
     		
-    		leftFrontMotor.set(ControlMode.PercentOutput, -motorSpeed);
-    		leftMiddleMotor.set(ControlMode.PercentOutput, -motorSpeed);
-    		leftBackMotor.set(ControlMode.PercentOutput, -motorSpeed);
-    		rightBackMotor.set(ControlMode.PercentOutput, -motorSpeed);
-    		rightMiddleMotor.set(ControlMode.PercentOutput, -motorSpeed);
-    		rightFrontMotor.set(ControlMode.PercentOutput, -motorSpeed);
-    		isFinished = false;
-    	}
-    	else if (angle > (dg+5)  ) {
     		leftFrontMotor.set(ControlMode.PercentOutput, motorSpeed);
     		leftMiddleMotor.set(ControlMode.PercentOutput, motorSpeed);
     		leftBackMotor.set(ControlMode.PercentOutput, motorSpeed);
     		rightBackMotor.set(ControlMode.PercentOutput, motorSpeed);
     		rightMiddleMotor.set(ControlMode.PercentOutput, motorSpeed);
     		rightFrontMotor.set(ControlMode.PercentOutput, motorSpeed);
+    		isFinished = false;
+    	}
+    	else if (angle > (dg+5)  ) {
+    		leftFrontMotor.set(ControlMode.PercentOutput, -motorSpeed);
+    		leftMiddleMotor.set(ControlMode.PercentOutput, -motorSpeed);
+    		leftBackMotor.set(ControlMode.PercentOutput, -motorSpeed);
+    		rightBackMotor.set(ControlMode.PercentOutput, -motorSpeed);
+    		rightMiddleMotor.set(ControlMode.PercentOutput, -motorSpeed);
+    		rightFrontMotor.set(ControlMode.PercentOutput, -motorSpeed);
     		isFinished = false;
     		
     	}
@@ -203,21 +203,21 @@ public class DriveTrain extends Subsystem {
     	}
     	else if (dg < 0) {
         	if (angle < (dg - 5)   ) {
-        		leftFrontMotor.set(ControlMode.PercentOutput, -motorSpeed);
-        		leftMiddleMotor.set(ControlMode.PercentOutput, -motorSpeed);
-        		leftBackMotor.set(ControlMode.PercentOutput, -motorSpeed);
-        		rightBackMotor.set(ControlMode.PercentOutput, -motorSpeed);
-        		rightMiddleMotor.set(ControlMode.PercentOutput, -motorSpeed);
-        		rightFrontMotor.set(ControlMode.PercentOutput, -motorSpeed);
-        		isFinished = false;
-        	}
-        	else if (angle > (dg+5)  ) {
         		leftFrontMotor.set(ControlMode.PercentOutput, motorSpeed);
         		leftMiddleMotor.set(ControlMode.PercentOutput, motorSpeed);
         		leftBackMotor.set(ControlMode.PercentOutput, motorSpeed);
         		rightBackMotor.set(ControlMode.PercentOutput, motorSpeed);
         		rightMiddleMotor.set(ControlMode.PercentOutput, motorSpeed);
         		rightFrontMotor.set(ControlMode.PercentOutput, motorSpeed);
+        		isFinished = false;
+        	}
+        	else if (angle > (dg+5)  ) {
+        		leftFrontMotor.set(ControlMode.PercentOutput, -motorSpeed);
+        		leftMiddleMotor.set(ControlMode.PercentOutput, -motorSpeed);
+        		leftBackMotor.set(ControlMode.PercentOutput, -motorSpeed);
+        		rightBackMotor.set(ControlMode.PercentOutput, -motorSpeed);
+        		rightMiddleMotor.set(ControlMode.PercentOutput, -motorSpeed);
+        		rightFrontMotor.set(ControlMode.PercentOutput, -motorSpeed);
         		isFinished= false;
         	}
         	else if (angle < (dg+4.9) && angle > (dg-4.9)) {
@@ -238,11 +238,10 @@ public class DriveTrain extends Subsystem {
     
     //drive straight
     public static boolean driveForward(double ds) {
-  
     	double diameter = 4;
     	double circumference = diameter;
     	double distance = ds;
-    	double lBMP = leftBackMotor.getSelectedSensorPosition(0);
+    	double lBMP = leftMiddleMotor.getSelectedSensorPosition(0);
     	double rBMP = rightMiddleMotor.getSelectedSensorPosition(0);
     	double distanceDrivenRight = ((rBMP/1024)*circumference);
     	double distanceDrivenLeft =((lBMP/1024)*circumference);
@@ -257,35 +256,30 @@ public class DriveTrain extends Subsystem {
     	
         //Are we there yet?
     	
-//    	if ((/* distanceDrivenRight > -distance || */ distanceDrivenLeft < distance) && distance > 0 ) {
+    	if ((/* distanceDrivenRight > -distance || */ distanceDrivenRight < distance) && distance > 0 ) {
     		/*if (Math.abs(distanceDrivenRight )> Math.abs(distanceDrivenLeft)) {
     			leftSpeed = leftSpeed + 0.0075;
     		}
     		else if (Math.abs(distanceDrivenLeft) > Math.abs(distanceDrivenRight) ) {
     			leftSpeed= leftSpeed - 0.0025;
     		}*/
-    		leftFrontMotor.set(ControlMode.PercentOutput, -leftSpeed);
-    		leftMiddleMotor.set(ControlMode.PercentOutput, -leftSpeed);
-    		leftBackMotor.set(ControlMode.PercentOutput, -leftSpeed);
+    		leftFrontMotor.set(ControlMode.PercentOutput, leftSpeed);
+    		leftMiddleMotor.set(ControlMode.PercentOutput, leftSpeed);
+    		leftBackMotor.set(ControlMode.PercentOutput, leftSpeed);
     		rightBackMotor.set(ControlMode.PercentOutput, -rightSpeed);
     		rightMiddleMotor.set(ControlMode.PercentOutput, -rightSpeed);
     		rightFrontMotor.set(ControlMode.PercentOutput, -rightSpeed);
-    		System.out.println("correct");
-    		try {
-				Thread.sleep(5000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+    	}
+    	else {
     		leftFrontMotor.set(ControlMode.PercentOutput, 0);
     		leftMiddleMotor.set(ControlMode.PercentOutput, 0);
     		leftBackMotor.set(ControlMode.PercentOutput, 0);
     		rightBackMotor.set(ControlMode.PercentOutput, 0);
     		rightMiddleMotor.set(ControlMode.PercentOutput, 0);
-    		rightFrontMotor.set(ControlMode.PercentOutput, 0);    		
-    		return false;
-//
-//    	}
+    		rightFrontMotor.set(ControlMode.PercentOutput, 0);
+    		return true;
+    	}
+    	return false;
 //    	else if (Math.abs(distanceDrivenLeft) <  Math.abs(distance) && distance < 0) {
 //    		/*if (Math.abs(distanceDrivenRight )> Math.abs(distanceDrivenLeft)) {
 //    			leftSpeed = leftSpeed + 0.0035;

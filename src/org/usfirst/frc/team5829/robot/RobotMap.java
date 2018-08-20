@@ -20,33 +20,35 @@ public class RobotMap {
 	// public static int rightMotor = 2;
 	
 	// Motors
-	public static int leftBackMotor = 9;
-	public static int leftMiddleMotor = 4;
-	public static int leftFrontMotor = 5;
+	public static int leftBackMotor = 10; // Talon
+	public static int leftMiddleMotor = 6; // Talon
+	public static int leftFrontMotor = 9; // Talon
 
-	public static int rightBackMotor = 3;
-	public static int rightMiddleMotor = 7;
-	public static int rightFrontMotor = 10;
+	public static int rightBackMotor = 4; // Talon
+	public static int rightMiddleMotor = 5; // Talon
+	public static int rightFrontMotor = 14; // Talon
 
-	public static int liftMotor1 = 3;
-	public static int liftMotor2 = 4;
-	public static int liftMotor3 = 5;
-	public static int liftMotor4 = 6;
+	public static int leftHangMotor = 11;
+	public static int rightHangMotor = 12;
 	
-	public static int intakeLeft = 2;
-	public static int intakeRight = 1;
-	public static int intakeLift = 0;
+	public static int liftMotor1 = 7;
+	public static int liftMotor2 = 2;
+	public static int liftMotor3 = 3;
+	public static int liftMotor4 = 1;
+	
+	public static int intake = 0;
+	public static int intake2 = 8;
 	
 	
 	// Solenoids
-	public static int arm_up = 2;
-	public static int arm_down = 3;
+	public static int arm_up = 3;
+	public static int arm_down = 2;
 	
-	public static int IntakeOpen = 4;
-	public static int IntakeClose = 5;
+	public static int IntakeOpen = 6;
+	public static int IntakeClose = 7;
 	
-	public static int breakOpen = 6;
-	public static int breakClose = 7;
+	public static int breakOpen = 0;
+	public static int breakClose = 1;
 	
 	
 	// Sensors

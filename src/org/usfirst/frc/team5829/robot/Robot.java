@@ -20,6 +20,7 @@ import org.usfirst.frc.team5829.robot.commands.RunAuton;
 import org.usfirst.frc.team5829.robot.subsystems.Arm;
 import org.usfirst.frc.team5829.robot.subsystems.CubeIntake;
 import org.usfirst.frc.team5829.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team5829.robot.subsystems.Hanger;
 import com.kauailabs.navx.frc.AHRS;
 import org.usfirst.frc.team5829.robot.commands.DriveForward;
 public class Robot extends TimedRobot {
@@ -27,9 +28,12 @@ public class Robot extends TimedRobot {
 	public static final DriveTrain driveBase = new DriveTrain();
 	public static final Arm arm = new Arm();
 	public static final CubeIntake intake = new CubeIntake();
+	public static final Hanger hanger = new Hanger();
 	public static AHRS navx = new AHRS(SerialPort.Port.kMXP);
 	public static OI oi;
 	public double m_autoInitTime = 0;
+//	public static String gameData;
+//	public boolean autoHasStarted = false;
 	Command autonomousCommand;
 	SendableChooser autoChooser;
 	
@@ -59,18 +63,32 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledPeriodic(){
 		Scheduler.getInstance().run();
+//		gameData = DriverStation.getInstance().getGameSpecificMessage();
 	}
 	@Override
 	public void autonomousInit(){
 		Robot.navx.reset();
     	Robot.navx.resetDisplacement();
 		m_autoInitTime = Timer.getFPGATimestamp();
+//		if(gameData.length() >0) {
+//			autoHasStarted = true;
+//			autonomousCommand = (Command) autoChooser.getSelected();
+//			autonomousCommand.start();
+//		}else {
+//			gameData = DriverStation.getInstance().getGameSpecificMessage();
+//		}
 	}
 	@Override
 	public void autonomousPeriodic(){
+//		if(gameData.length() >0 && autoHasStarted == false) {
+//			autoHasStarted = true;
+//			autonomousCommand = (Command) autoChooser.getSelected();
+//			autonomousCommand.start();
+//		}else {
+//			gameData = DriverStation.getInstance().getGameSpecificMessage();
+//		}
 		autonomousCommand = (Command) autoChooser.getSelected();
 		autonomousCommand.start();
-		
 		driveBase.setBreakMode(true);
 		Scheduler.getInstance().run();
 		
@@ -80,23 +98,30 @@ public class Robot extends TimedRobot {
 		}else{
 			Robot.driveBase.TankDrive(0, 0);
 		}*/
+		
+		
 	}
+//	public static String getGameData() {
+//		return gameData;
+//	}
 	@Override
 	public void teleopInit(){
-		//Robot.driveBase.leftMiddleMotor.setSelectedSensorPosition(0, 0, 0);
-		//Robot.driveBase.rightMiddleMotor.setSelectedSensorPosition(0, 0, 0);
+		Robot.driveBase.leftMiddleMotor.setSelectedSensorPosition(0, 0, 0);
+		Robot.driveBase.rightMiddleMotor.setSelectedSensorPosition(0, 0, 0);
+		Robot.arm.liftMotor1.setSelectedSensorPosition(0, 0, 0);
 		if (autonomousCommand != null){
 			autonomousCommand.cancel();
 		}
-		//Robot.driveBase.resetEncoder();
+		Robot.driveBase.resetEncoder();
+		Robot.arm.resetEncoder();
 	}
 	@Override
 	public void teleopPeriodic(){
 		Scheduler.getInstance().run();
-		driveBase.setBreakMode(false);
+		driveBase.setBreakMode(true);
 		//SmartDashboard.putNumber("Lidar Value", Robot.arm.getLiftHeightInches());
 		SmartDashboard.putNumber("liftEncoder", Robot.arm.liftMotor1.getSelectedSensorPosition(0));
-		SmartDashboard.putNumber("rightEncoder", Robot.driveBase.leftBackMotor.getSelectedSensorPosition(0));
+		SmartDashboard.putNumber("rightEncoder", Robot.driveBase.leftMiddleMotor.getSelectedSensorPosition(0));
 		SmartDashboard.putNumber("leftEncoder", Robot.driveBase.rightMiddleMotor.getSelectedSensorPosition(0));
 		SmartDashboard.putNumber("NAVX Angle", Robot.navx.getAngle());
 	}
