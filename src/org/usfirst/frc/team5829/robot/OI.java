@@ -10,6 +10,7 @@ package org.usfirst.frc.team5829.robot;
 import org.usfirst.frc.team5829.robot.commands.ArmMove;
 import org.usfirst.frc.team5829.robot.commands.ArmSetMove;
 import org.usfirst.frc.team5829.robot.commands.IntakeCube;
+import org.usfirst.frc.team5829.robot.commands.Hang;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -33,15 +34,15 @@ public class OI {
 	// Button button = new JoystickButton(stick, buttonNumber);
 	
 	//Controller 1
-	Button btnA = new JoystickButton(xbox, 1);
-	Button btnB = new JoystickButton(xbox, 2);
-	Button btnX = new JoystickButton(xbox, 3);
-	Button btnY = new JoystickButton(xbox, 4);
-	Button btnL1 = new JoystickButton(xbox, 5);
-	Button btnR1 = new JoystickButton(xbox, 6);
-	Button btnM = new JoystickButton(xbox, 7);
-	Button btnS = new JoystickButton(xbox, 8);
-	Button btnW = new JoystickButton(xbox, 9);
+	Button btnA = new JoystickButton(xbox, 1); // A button
+	Button btnB = new JoystickButton(xbox, 2); // B button
+	Button btnX = new JoystickButton(xbox, 3); // X button
+	Button btnY = new JoystickButton(xbox, 4); // Y button
+	Button btnL1 = new JoystickButton(xbox, 5); // Left Bumper?
+	Button btnR1 = new JoystickButton(xbox, 6); // Right Bumper?
+	Button btnM = new JoystickButton(xbox, 7); // what is this
+	Button btnS = new JoystickButton(xbox, 8); // what is this
+	Button btnW = new JoystickButton(xbox, 9); // what is this
 	
 	//Controller 2
 	Button btnA2 = new JoystickButton(xbox2, 1); // A button
@@ -107,34 +108,23 @@ public class OI {
 		btnR1.whenPressed(new ArmMove(-1, 0));
 		btnR1.whenReleased(new ArmMove(0, 0));
 		
-		//Move Intake
-		btnB.toggleWhenPressed(new ArmMove(0, 1));
+		btnB.toggleWhenPressed(new ArmMove(0, 1));//Move Intake
+		btnY.toggleWhenPressed(new IntakeCube(1));//Move Intake Arms
 		
-		//Move Intake Arms
-		btnY.toggleWhenPressed(new IntakeCube(1));
-		
-		
-		//second controller
+
+		//Second Controller
 		
 		//Move Arm
+		btnX2.whenPressed(new ArmSetMove(11895));//Switch
+		btnY2.whenPressed(new ArmSetMove(41895));//Scale Level
+		btnB2.whenPressed(new ArmSetMove(51270));//Max Height
+		btnA2.whenPressed(new ArmSetMove(100));//Set to zero
 		
-		//Switch
-		btnX2.whenPressed(new ArmSetMove(11895));
-		
-		//Scale Level
-		btnY2.whenPressed(new ArmSetMove(41895));
-		
-		//Max Height
-		btnB2.whenPressed(new ArmSetMove(51270));
-		
-		//Set to zero
-		btnA2.whenPressed(new ArmSetMove(100));
-		
-		
-		//Move Intake
-		btnL2.toggleWhenPressed(new ArmMove(0, 1));
-		
-		//Move Intake Arms
-		btnR2.toggleWhenPressed(new IntakeCube(1));
+		//btnL2.toggleWhenPressed(new ArmMove(0, 1));//Move Intake
+		//btnR2.toggleWhenPressed(new IntakeCube(1));//Move Intake Arms
+
+        // if this doesnt work try changing to toggleWhenPressed
+        btnL2.whenPressed(new Hang(true)); // run winch
+        btnL2.whenReleased(new Hang(false)): // stop winch
 	}
 }
