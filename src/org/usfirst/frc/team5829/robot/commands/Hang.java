@@ -8,11 +8,11 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class Hang extends Command {
-	public boolean doIHang;
-	
+    public boolean doIHang;
+    
     public Hang(boolean doHang) {
         doIHang = doHang;
-		requires(Robot.hanger);
+        requires(Robot.hanger);
     }
 
     // Called just before this Command runs the first time
@@ -21,7 +21,7 @@ public class Hang extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
         Hanger.Hang(doIHang);
-	}
+    }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {

@@ -12,8 +12,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Hanger extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-	public static Spark leftHangerMotor = new Spark(RobotMap.leftHangMotor);
-	public static Spark rightHangerMotor = new Spark(RobotMap.rightHangMotor);
+    public static Spark leftHangerMotor = new Spark(RobotMap.leftHangMotor);
+    public static Spark rightHangerMotor = new Spark(RobotMap.rightHangMotor);
     public static final double hangSpeed = .75;
 
     public void initDefaultCommand() {
