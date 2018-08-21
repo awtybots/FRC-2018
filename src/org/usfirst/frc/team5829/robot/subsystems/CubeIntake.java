@@ -25,35 +25,35 @@ public class CubeIntake extends Subsystem {
 	public static final double liftSpeed = .45;
 	
     public void initDefaultCommand() {
-    	// This is a useless comment
+		// This is a useless comment
         // Set the default command for a subsystem here.
-    	intakeMove.set(DoubleSolenoid.Value.kReverse);
+		intakeMove.set(DoubleSolenoid.Value.kReverse);
         setDefaultCommand(new IntakeCube(0));
     }
     
     public static void Intake(double speed){
-    	if(Math.abs(speed) > .65) {
-    		intakeMotor.set(-outtakeSpeed);
-    		intakeMotor2.set(outtakeSpeed);
-    	}else{
-    		intakeMotor.set(0);
-    		intakeMotor2.set(0);
-    	}
+		if(Math.abs(speed) > .65) {
+			intakeMotor.set(-outtakeSpeed);
+			intakeMotor2.set(outtakeSpeed);
+		}else{
+			intakeMotor.set(0);
+			intakeMotor2.set(0);
+		}
     }
     
     public static void Outtake(double speed){
-    	if(Math.abs(speed) > .25) {
-    		intakeMotor.set(intakeSpeed);
-    		intakeMotor2.set(-intakeSpeed);
-    	}
+		if(Math.abs(speed) > .25) {
+			intakeMotor.set(intakeSpeed);
+			intakeMotor2.set(-intakeSpeed);
+		}
     }
     
     public static void IntakeMove(int openClose) {
-    	if(openClose == 1)
-    		intakeMove.set(DoubleSolenoid.Value.kReverse);
-    	if(openClose == 0)
-    		intakeMove.set(DoubleSolenoid.Value.kForward);
-    	
+		if(openClose == 1)
+			intakeMove.set(DoubleSolenoid.Value.kReverse);
+		if(openClose == 0)
+			intakeMove.set(DoubleSolenoid.Value.kForward);
+		
     }
 }
 
