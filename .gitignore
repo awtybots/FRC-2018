@@ -1,5 +1,8 @@
 /bin/
-
 /dist/
 /build/
 *.class
+.classpath
+tags
+.project
+build.*
