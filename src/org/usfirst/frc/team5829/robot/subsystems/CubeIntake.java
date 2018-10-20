@@ -43,7 +43,7 @@ public class CubeIntake extends Subsystem {
     
     public static void Outtake(double speed){
         if(Math.abs(speed) > .25) {
-            intakeMotor.set(intakeSpeed);
+            intakeMotor.set(intakeSpeed-.20);
             intakeMotor2.set(-intakeSpeed);
         }
     }

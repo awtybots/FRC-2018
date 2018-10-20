@@ -32,7 +32,7 @@ public class Robot extends TimedRobot {
 	public static AHRS navx = new AHRS(SerialPort.Port.kMXP);
 	public static OI oi;
 	public double m_autoInitTime = 0;
-//	public static String gameData;
+	public static String gameData;
 //	public boolean autoHasStarted = false;
 	Command autonomousCommand;
 	SendableChooser autoChooser;
@@ -46,14 +46,14 @@ public class Robot extends TimedRobot {
 		//center auto
 		autoChooser.addDefault("Drive Forward", new RunAuton(0)); //drive forward
 		
-		//auto for Switch
+		/*//auto for Switch
 		autoChooser.addDefault("Starting Left", new RunAuton(1));
 		autoChooser.addDefault("Starting Center", new RunAuton(2));
 		autoChooser.addDefault("Starting Right", new RunAuton(3));
 		
 		//auto for Scale
 		autoChooser.addDefault("Starting Left Scale", new RunAuton(4));
-		autoChooser.addDefault("Starting Right Scale", new RunAuton(5));
+		autoChooser.addDefault("Starting Right Scale", new RunAuton(5));*/
 		
 		SmartDashboard.putData("Auto mode", autoChooser);
 		oi = new OI();
@@ -101,9 +101,9 @@ public class Robot extends TimedRobot {
 		
 		
 	}
-//	public static String getGameData() {
-//		return gameData;
-//	}
+	/*public static String getGameData() {
+		return gameData;
+	}*/
 	@Override
 	public void teleopInit(){
 		Robot.driveBase.leftMiddleMotor.setSelectedSensorPosition(0, 0, 0);

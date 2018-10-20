@@ -52,8 +52,10 @@ public class RunAuton extends CommandGroup {
     
 	
 	public void DriveForward(){
-		System.out.println("called from runnauton");
+		//System.out.println("called from runnauton");
 		addSequential(new DriveForward(65));
+		//gameData = Robot.getGameData();
+		
 	}
 	
 	public void StartLeft(){

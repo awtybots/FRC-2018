@@ -116,7 +116,7 @@ public class OI {
 		
 		//Move Arm
 		btnX2.whenPressed(new ArmSetMove(11895));//Switch
-		btnY2.whenPressed(new ArmSetMove(41895));//Scale Level
+		btnY2.whenPressed(new ArmSetMove(35000));//Scale Level
 		btnB2.whenPressed(new ArmSetMove(51270));//Max Height
 		btnA2.whenPressed(new ArmSetMove(100));//Set to zero
 		
@@ -125,6 +125,6 @@ public class OI {
 
         // if this doesnt work try changing to toggleWhenPressed
         btnL2.whenPressed(new Hang(true)); // run winch
-        btnL2.whenReleased(new Hang(false)): // stop winch
+        btnL2.whenReleased(new Hang(false)); // stop winch
 	}
 }

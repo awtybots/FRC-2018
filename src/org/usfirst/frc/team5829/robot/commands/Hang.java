@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5829.robot.commands;
 
 import org.usfirst.frc.team5829.robot.Robot;
+import org.usfirst.frc.team5829.robot.subsystems.Hanger;
 
 import edu.wpi.first.wpilibj.command.Command;
 
